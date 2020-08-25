@@ -10,6 +10,13 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table = "users";
+
+    public function auction_detail(){
+        return this->hasOne('App\AuctionDetail', 'user_id', 'id');
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *

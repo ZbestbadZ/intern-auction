@@ -19,10 +19,10 @@ class Auction extends Model
 
   public function product()
   {
-      return $this->belongsTo(Product::class);
+      return $this->belongsTo('App\Product');
   }  
   public function auction_detail()
   {
-      return $this->hasOne(Auc);
+      return $this->hasOne('App\AuctionDetail','auction_id');
   }
 }
