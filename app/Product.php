@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -16,8 +16,13 @@ class Product extends Model
     protected $fillable = [
         'name','status','is_bidding','description','start_price', 'minimum_bid',
     ];
+
     public function auction()
     {
-        return $this->hasOne(Auction::class);
+        return $this->hasOne('App\Auction', 'product_id');
+    }
+
+    public function product_image(){
+        return $this->hasMany('App\ProductImage', 'product_id');
     }
 }

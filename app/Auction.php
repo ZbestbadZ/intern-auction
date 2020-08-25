@@ -17,12 +17,12 @@ class Auction extends Model
         'product_id','start_date','end_date',
     ];
 
-  public function product()
-  {
-      return $this->belongsTo(Product::class);
-  }  
-  public function auction_detail()
-  {
-      return $this->hasOne(Auc);
-  }
+    public function product(){
+        return $this->beLongTo('App\Product');
+    }
+
+    public function auction_detail()
+    {
+        return $this->hasOne('App\AuctionDetail', 'auction_id');
+    }
 }
