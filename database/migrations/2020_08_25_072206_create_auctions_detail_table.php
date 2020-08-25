@@ -17,7 +17,7 @@ class CreateAuctionsDetailTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('auction_id');
             $table->unsignedBigInteger('user_id');
-            $table->double('bid_price');
+            $table->string('bid_price');
             $table->date('bid_time');
             $table->timestamps();
         });

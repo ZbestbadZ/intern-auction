@@ -18,9 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->boolean('status');
             $table->boolean('is_bidding');
-            $table->text('description');
-            $table->double('start_price');
-            $table->double('minimum_bid');
+            $table->text('description')->nullable();
+            $table->string('start_price')->default('0');
+            $table->string('minimum_bid')->default('0');
             $table->timestamps();
         });
     }
