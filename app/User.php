@@ -12,10 +12,7 @@ class User extends Authenticatable
 
     protected $table = "users";
 
-    public function auction_detail(){
-        return $this->hasOne('App\AuctionDetail', 'user_id');
-    }
-
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +39,9 @@ class User extends Authenticatable
     protected $casts = [
        
     ];
+
+    public function auction_detail(){
+        return $this->hasMany('App\AuctionDetail', 'user_id');
+    }
+
 }
