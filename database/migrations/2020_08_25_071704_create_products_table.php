@@ -16,8 +16,8 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->boolean('status');
-            $table->boolean('is_bidding');
+            $table->boolean('status')->default(false);
+            $table->boolean('is_bidding')->default(false);
             $table->text('description')->nullable();
             $table->string('start_price')->default('0');
             $table->string('minimum_bid')->default('0');
