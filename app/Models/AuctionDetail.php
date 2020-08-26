@@ -14,6 +14,6 @@ class AuctionDetail extends Model
     }
 
     public function auction(){
-    	return $this->beLongTo(Auction::class, 'auction_id', 'id');
+    	return $this->beLongsTo(Auction::class, 'auction_id', 'id');
     }
 }

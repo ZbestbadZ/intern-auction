@@ -43,8 +43,10 @@ class User extends Authenticatable
        
     ];
 
-    public function auction_detail(){
+    public function auction_details(){
+
         return $this->hasMany(AuctionDetail::class,  'user_id', 'id');
+        
     }
 
 }

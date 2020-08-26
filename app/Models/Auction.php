@@ -20,7 +20,7 @@ class Auction extends Model
     ];
 
     public function product(){
-        return $this->beLongTo(Product::class, 'product_id' , 'id');
+        return $this->belongsTo(Product::class, 'product_id' , 'id');
     }
 
     public function auction_detail()
