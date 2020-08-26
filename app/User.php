@@ -44,7 +44,7 @@ class User extends Authenticatable
     ];
 
     public function auction_detail(){
-        return $this->belongsToMany(AuctionDetail::class, 'user_auction_detail' , 'user_id', 'auction_detail_id');
+        return $this->hasOne(AuctionDetail::class,  'user_id', 'id');
     }
 
 }

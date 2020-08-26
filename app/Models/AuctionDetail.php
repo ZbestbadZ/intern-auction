@@ -10,7 +10,7 @@ class AuctionDetail extends Model
     protected $table = "auctions_detail";
 
     public function user(){
-    	return $this->beLongToMany(User::class, 'user_auction_detail' , 'user_id', 'auction_detail_id');
+    	return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function auction(){
