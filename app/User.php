@@ -40,8 +40,5 @@ class User extends Authenticatable
        
     ];
 
-    public function auction_detail(){
-        return $this->belongsToMany('App\AuctionDetail', 'user_id');
-    }
-
+    
 }
