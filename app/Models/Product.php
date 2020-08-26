@@ -18,7 +18,7 @@ class Product extends Model
         return $this->hasOne(Auction::class, 'product_id', 'id');
     }
 
-    public function product_images(){
+    public function images(){
 
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
