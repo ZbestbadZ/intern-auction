@@ -18,7 +18,7 @@ class Auction extends Model
     ];
 
     public function product(){
-        return $this->beLongTo('App\Product');
+        return $this->beLongTo('App\Product', 'product_id');
     }
 
     public function auction_detail()

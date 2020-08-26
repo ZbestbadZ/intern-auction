@@ -9,10 +9,10 @@ class AuctionDetail extends Model
     protected $table = "auctions_detail";
 
     public function user(){
-    	return $this->beLongTo('App\User');
+    	return $this->beLongTo('App\User','user_id');
     }
 
     public function auction(){
-    	return $this->beLongTo('App\Auction');
+    	return $this->beLongTo('App\Auction','auction_id');
     }
 }
