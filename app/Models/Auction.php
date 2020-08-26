@@ -1,8 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\AuctionDetail;
 use Illuminate\Database\Eloquent\Model;
+;
 
 class Auction extends Model
 {
@@ -18,11 +20,11 @@ class Auction extends Model
     ];
 
     public function product(){
-        return $this->beLongTo('App\Product', 'product_id');
+        return $this->beLongTo(Product::class, 'product_id' , 'id');
     }
 
     public function auction_detail()
     {
-        return $this->hasOne('App\AuctionDetail', 'auction_id');
+        return $this->hasOne(AuctionDetail::class, 'auction_id', 'id');
     }
 }

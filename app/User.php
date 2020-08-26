@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models;
+use App\Models\Auction;
+use App\Models\AuctionDetail;
 
 class User extends Authenticatable
 {
@@ -41,7 +44,7 @@ class User extends Authenticatable
     ];
 
     public function auction_detail(){
-        return $this->belongsToMany('App\AuctionDetail', 'user_id');
+        return $this->belongsToMany(AuctionDetail::class, 'user_auction_detail' , 'user_id', 'auction_detail_id');
     }
 
 }
