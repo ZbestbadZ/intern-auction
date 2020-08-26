@@ -44,7 +44,7 @@ class User extends Authenticatable
     ];
 
     public function auction_detail(){
-        return $this->hasOne(AuctionDetail::class,  'user_id', 'id');
+        return $this->hasMany(AuctionDetail::class,  'user_id', 'id');
     }
 
 }
