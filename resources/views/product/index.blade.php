@@ -21,13 +21,14 @@
                     
                 <div class="col-3 text-center">
                     @if(count($item->images)===0)
-                    
-                    <img class="img-fluid" style="height: 150px"  src="https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg" alt="">
-                    
+                    <a href="product/{{$item->id}}">
+                        <img class="img-fluid" style="height: 150px"  src="https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg" alt="">
+                    </a>
                     @else
                     
-                    <img class="img-fluid" src="{{'storage/'. $item->images['0']->image_url}}" alt=""> 
-                    
+                    <a href="product/{{$item->id}}">
+                        <img class="img-fluid" src="{{'storage/'. $item->images['0']->image_url}}" alt=""> 
+                    </a>
                     @endif
                     
                     </div>

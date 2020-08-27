@@ -74,13 +74,24 @@ class ProductController extends Controller
             'start_price' => $data['startprice'],
         ]);
 
+        $image = request()->file(['image']);
+        if(isset($image)){
+        $imgPath =  $image->store('uploads/'.$product->id,'public');
+        
+        ProductImage::create([
+            'product_id' => $product->id,
+            'image_url' => $imgPath, 
+            'name' => $image->getClientOriginalName(),
+        ]);
+        }
+
         return redirect()->route('product.index');
     }
 
     public function destroy(Product $product){
        
         $product->delete();
-        return back();
+        return redirect()->route('product.index');
     }
 
     public function index(){
@@ -90,8 +101,9 @@ class ProductController extends Controller
     
     }
      
-    public function show(){
-
+    public function show(Product $product){
+        
+        return view('product.show', compact('product'));
     }
 
 
