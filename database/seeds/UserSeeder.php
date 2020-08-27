@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -21,7 +22,6 @@ class UserSeeder extends Seeder
             'phone'=> '0987654321',
         ]);
         DB::table('users')->insert([
-
             'name' => 'user',
             'username'=> 'user',
             'password'=> 'user',
