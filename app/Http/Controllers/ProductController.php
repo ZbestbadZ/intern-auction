@@ -6,6 +6,7 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -25,21 +26,26 @@ class ProductController extends Controller
     }
 
     public function store(ProductStoreRequest $request) {
-        $request->validated();
-        $validated = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
-        $product = Product::create($validated);
+        try{
+            $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
         
-        $image = request()->file(['image']);
-        if(isset($image)){
-        $imgPath =  $image->store('uploads/'.$product->id,'public');
+            $product = Product::create($data);
         
-        ProductImage::create([
-            'product_id' => $product->id,
-            'image_url' => $imgPath, 
-            'name' => $image->getClientOriginalName(),
-        ]);
+            $image = request()->file(['image']);
+            if(isset($image)){
+            $imgPath =  $image->store('uploads/'.$product->id,'public');
+        
+            ProductImage::create([
+                'product_id' => $product->id,
+                'image_url' => $imgPath, 
+                'name' => $image->getClientOriginalName(),
+            ]);
+            }
+
+            return redirect()->route('products.index');
+        } catch(Exception $e) {
+
         }
-        return redirect()->route('products.index');
     }
 
     public function edit($id){
@@ -49,22 +55,27 @@ class ProductController extends Controller
     }
 
     public function update(ProductUpdateRequest $request, $id){
-        $request->validated();
-        $validated = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
-        $product = Product::find($id)->update($validated);
+        try{
+            $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
+            
+            $product = Product::find($id)->update($data);
 
-        $image = request()->file(['image']);
-        if(isset($image)){
-        $imgPath =  $image->store('uploads/'.$product->id,'public');
+            $image = request()->file(['image']);
+            if(isset($image)){
+            $imgPath =  $image->store('uploads/'.$product->id,'public');
         
-        ProductImage::create([
-            'product_id' => $product->id,
-            'image_url' => $imgPath, 
-            'name' => $image->getClientOriginalName(),
-        ]);
-        }
+            ProductImage::create([
+              'product_id' => $product->id,
+              'image_url' => $imgPath, 
+                'name' => $image->getClientOriginalName(),
+              ]);
+            }
 
-        return redirect()->route('products.index');
+            return redirect()->route('products.index');
+        }catch(Exception $e) {
+
+        }
+        
     }
 
     public function destroy($id){
