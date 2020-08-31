@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class=" col-5">
-            <form method="POST" enctype="multipart/form-data" action="/product">
+            <form method="POST" enctype="multipart/form-data" action="/products">
                 <div class="form-group">
                     @csrf
                 <label for="name">Name: </label>
@@ -32,7 +32,7 @@
 
                 <div class="form-group">
                     <label for="startprice">Start price: </label>
-                    <input class="form-control" type="text" name="startprice" id="startprice" value="0">
+                    <input class="form-control" type="text" name="start_price" id="startprice" value="0">
                 @error('startprice')
                               
                    <strong>{{ $message }}</strong>
@@ -42,7 +42,7 @@
 
                 <div class="form-group">
                     <label for="minimumbid">Minimum Bid: </label>
-                    <input class="form-control" type="text" name="minimumbid" id="minimumbid" value="0">
+                    <input class="form-control" type="text" name="minimum_bid" id="minimumbid" value="0">
                 @error('minimumbid')
                               
                    <strong>{{ $message }}</strong>
@@ -52,7 +52,7 @@
                 
                 <div class="form-group">
                     <label for="ispublic">On auction: </label>
-                    <input type="checkbox"  name="ispublic" id="ispublic" >    
+                    <input type="checkbox"  name="is_bidding" id="ispublic" >    
                 </div>
                 <div class="form-group">
                     <input type="file" class="form-control-file" id="image" name="image">

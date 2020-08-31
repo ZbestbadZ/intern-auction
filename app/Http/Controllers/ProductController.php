@@ -2,37 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Request;
 
 class ProductController extends Controller
 {
+    protected $productModel;
+
+    public function __construct(Product $model)
+    {
+        $this->productModel = $model;
+    }
 
     public function create(){
         return view('product.create');
     }
 
-    public function store() {
-        $data = request()->validate([
-            'name' => 'required',
-            'description'=>'required',
-            'ispublic' =>'',
-            'status'=>'',
-            'image'=> 'image',
-            'minimumbid' =>'numeric',
-            'startprice' => 'numeric',
-        ]);
-
+    public function store(ProductStoreRequest $request) {
+        
+        $validated = $request->validated();
         $product = Product::create([
-            'name' => $data['name'],
-            'description' => $data['description'],
-            'is_bidding' => isset($data['ispublic']),
-            'minimum_bid' => $data['minimumbid'],
-            'start_price' => $data['startprice'],  
+            'name' => $validated['name'],
+            'description' => $request['description'],
+            'minimum_bid' => $request['minimum_bid'],
+            'is_bidding' => $request['is_bidding'],
+            'start_price' => $request['start_price'],  
         ]);
         
         $image = request()->file(['image']);
@@ -45,33 +45,23 @@ class ProductController extends Controller
             'name' => $image->getClientOriginalName(),
         ]);
         }
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 
-    public function edit(Product $product){
+    public function edit($id){
+        $product = $this->productModel->find($id);
         
         return view('product.edit',compact('product'));
     }
 
-    public function update(Product $product){
-        $data = request()->validate([
-            'name' => 'required',
-            'description'=>'required',
-            'ispublic' =>'',
-            'status'=>'',
-            'image'=> 'image',
-            'minimumbid' =>'numeric',
-            'startprice' => 'numeric',
-        ]);
-
-
-            
-        $product->update([
-            'name' => $data['name'],
-            'description' => $data['description'],
-            'is_bidding' => isset($data['ispublic']),
-            'minimum_bid' => $data['minimumbid'],
-            'start_price' => $data['startprice'],
+    public function update(ProductUpdateRequest $request, $id){
+       // dd($id);
+        $validated = $request->validated();
+        $product = Product::find($id)->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'minimum_bid' => $validated['minimum_bid'],
+            'start_price' => $validated['start_price'],  
         ]);
 
         $image = request()->file(['image']);
@@ -85,18 +75,18 @@ class ProductController extends Controller
         ]);
         }
 
-        return redirect()->route('product.index');
+        return redirect()->route('products.index');
     }
 
-    public function destroy(Product $product){
+    public function destroy($id){
        
-        $product->delete();
-        return redirect()->route('product.index');
+        $product = Product::find($id)->delete();
+        return redirect()->route('products.index');
     }
 
     public function index(){
      
-        $products = Product::paginate(2);
+        $products = Product::paginate(config('app.product_paging'));
         return view('product.index', ['products'=>$products]);
     
     }
