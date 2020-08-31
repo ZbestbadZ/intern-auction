@@ -37,8 +37,7 @@ Route::get('admin', ['middleware' => 'isadmin', function () {
     return view('admin.admin');
 }]);
 
-Route::get('user',['middleware' => 'auth', function () {
-    return view('user.user');
-}]);
-
-
+Route::group(['prefix'=>'user', 'middleware' => 'auth'], function(){
+    Route::get('list_product', 'UserController@getList_product');
+    Route::get('products/{id}', 'UserController@getShow')->name('products.show');
+});

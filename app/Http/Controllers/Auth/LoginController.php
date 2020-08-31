@@ -55,7 +55,7 @@ class LoginController extends Controller
             return redirect('admin');
         }
         else {
-            return redirect('user');
+            return redirect('user/list_product');
         }
     }
 
