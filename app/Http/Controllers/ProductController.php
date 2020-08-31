@@ -25,15 +25,9 @@ class ProductController extends Controller
     }
 
     public function store(ProductStoreRequest $request) {
-        
-        $validated = $request->validated();
-        $product = Product::create([
-            'name' => $validated['name'],
-            'description' => $request['description'],
-            'minimum_bid' => $request['minimum_bid'],
-            'is_bidding' => $request['is_bidding'],
-            'start_price' => $request['start_price'],  
-        ]);
+        $request->validated();
+        $validated = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
+        $product = Product::create($validated);
         
         $image = request()->file(['image']);
         if(isset($image)){
@@ -55,14 +49,9 @@ class ProductController extends Controller
     }
 
     public function update(ProductUpdateRequest $request, $id){
-       // dd($id);
-        $validated = $request->validated();
-        $product = Product::find($id)->update([
-            'name' => $validated['name'],
-            'description' => $validated['description'],
-            'minimum_bid' => $validated['minimum_bid'],
-            'start_price' => $validated['start_price'],  
-        ]);
+        $request->validated();
+        $validated = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
+        $product = Product::find($id)->update($validated);
 
         $image = request()->file(['image']);
         if(isset($image)){
@@ -79,20 +68,20 @@ class ProductController extends Controller
     }
 
     public function destroy($id){
-       
-        $product = Product::find($id)->delete();
+        $product = $this->productModel->find($id);  
+        $product->delete();
         return redirect()->route('products.index');
     }
 
     public function index(){
      
-        $products = Product::paginate(config('app.product_paging'));
+        $products = Product::paginate(config('const.product_paging'));
         return view('product.index', ['products'=>$products]);
     
     }
      
-    public function show(Product $product){
-        
+    public function show($id){
+        $product = $this->productModel->find($id);
         return view('product.show', compact('product'));
     }
 
