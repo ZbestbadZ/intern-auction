@@ -44,6 +44,8 @@ class ProductController extends Controller
 
             return redirect()->route('products.index');
         } catch(Exception $e) {
+            $mess = $e->getMessage() ;
+            return redirect()->route('products.index',['warning' => '1']);
 
         }
     }
@@ -70,9 +72,11 @@ class ProductController extends Controller
                 'name' => $image->getClientOriginalName(),
               ]);
             }
-
+            
             return redirect()->route('products.index');
         }catch(Exception $e) {
+            $mess = $e->getMessage() ;
+            return redirect()->route('products.index',['warning' => '1']);
 
         }
         
@@ -85,9 +89,10 @@ class ProductController extends Controller
     }
 
     public function index(){
-     
+        $warning = request(['warning']);
+        
         $products = Product::paginate(config('const.product_paging'));
-        return view('product.index', ['products'=>$products]);
+        return view('product.index', ['products'=>$products, 'warning'=>$warning]);
     
     }
      
@@ -96,6 +101,6 @@ class ProductController extends Controller
         return view('product.show', compact('product'));
     }
 
-
+   
 
 }

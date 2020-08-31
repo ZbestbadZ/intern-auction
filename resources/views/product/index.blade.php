@@ -10,7 +10,7 @@
     <div class="container">
         
         <div class="justify-content-center">
-            
+                <div>{{ $warning['warning'] ?? '' }}</div>
                 <div class="">
                     <a href="/products/create">Add a new product</a>
                 </div>
