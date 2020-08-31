@@ -17,14 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('admin', ['middleware' => 'isadmin', function () {
-    return view('admin.admin');
-}]);
-
-Route::get('user',['middleware' => 'auth', function () {
-    return view('user.user');
-}]);
-
 Route::group(['prefix'=>'/products'],function(){
     Route::get('', 'ProductController@index')->name('products.index');
 
@@ -41,5 +33,12 @@ Route::group(['prefix'=>'/products'],function(){
     Route::delete('/{id}','ProductController@destroy')->name('products.destroy');    
 });
 
+Route::get('admin', ['middleware' => 'isadmin', function () {
+    return view('admin.admin');
+}]);
+
+Route::get('user',['middleware' => 'auth', function () {
+    return view('user.user');
+}]);
 
 
