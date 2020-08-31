@@ -14,3 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Auth::routes();
+
+Route::get('admin', ['middleware' => 'isadmin', function () {
+    return view('admin.admin');
+}]);
+
+Route::get('user',['middleware' => 'auth', function () {
+    return view('user.user');
+}]);
