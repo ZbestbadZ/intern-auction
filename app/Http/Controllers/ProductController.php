@@ -27,11 +27,14 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request) {
         try{
-            $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
-        
+            $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price','is_bidding']);
+            
+            
+
             $product = Product::create($data);
         
             $image = request()->file(['image']);
+
             if(isset($image)){
             $imgPath =  $image->store('uploads/'.$product->id,'public');
         
@@ -57,10 +60,12 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, $id){
         try{
-            $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price']);
+            $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price','is_bidding']);
             
-            $product = Product::find($id)->update($data);
+            if(!isset($data['is_bidding']))$data['is_bidding'] = false;
 
+            $product = Product::find($id)->update($data);
+            
             $image = request()->file(['image']);
             if(isset($image)){
             $imgPath =  $image->store('uploads/'.$product->id,'public');
