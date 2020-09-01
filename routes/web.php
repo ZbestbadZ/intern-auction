@@ -17,6 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['prefix'=>'/auctions'],function(){
+    
+    Route::patch('/{id}','AuctionController@update')->name('auctions.update');
+
+});
+
 Route::group(['prefix'=>'/products'],function(){
     Route::get('', 'ProductController@index')->name('products.index');
 

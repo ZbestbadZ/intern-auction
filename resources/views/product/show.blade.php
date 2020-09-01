@@ -24,20 +24,29 @@
             </div>
 
             <div class="col-6">
-                <div class="row">
+                <div class="">
                     <h3>{{$product->name}}</h3>
                 </div>
-                <div class="row">
+                <div class="">
                    Description: {{$product->description}}
                 </div>
-                <div class="row">
-                   is on Auction: {{$product->is_bidding}}
+                <div class="">
+                   is on Auction: {{$product->is_bidding?'Public':'Non Public'}}
                 </div>
-                <div class="row">
-                   @if ($product->status === 1)
-                       
+                <div class="">
+                   @if ($product->is_bidding && $product->auction)
+                        <form method="POST" action="/auctions/{{$product->auction->id}}" >
+                            @csrf
+                            @method('PATCH')
+                        <label for="start_date">Start time:</label>
+                        <input type="datetime-local" name="start_date" id="start_date" value="{{$formatedStartDate.'T'.$formatedStartTime}}"><br>
+                        <label for="end_date">End time:</label>
+                        <input type="datetime-local" name="end_date" id="end_date" value="{{$formatedEndDate.'T'.$formatedEndTime}}"><br>
+                        <button class="btn btn-primary" href="" >Edit</button>
+                        </form>
                    @endif 
                 </div>
+                
             </div>
 
         </div>
