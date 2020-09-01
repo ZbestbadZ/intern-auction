@@ -8,6 +8,8 @@ use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\AuctionDetail;
+use App\Models\Auction;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -33,7 +35,21 @@ class UserController extends Controller
 
     public function getShow($id){
         $product = $this->productModel->find($id);
-        return view('product.show', compact('product'));
+        return view('user.detail_product', compact('product'));
     }
 
+    public function postAuction(Request $request, $id){
+
+        try {
+            $data = $request->only(['bid_price']);
+           
+            $product = Product::find($id)
+                                ->join('auctions_detail', 'products.id', '=', 'auctions_detail.product_id')
+                                ->update($data);
+            return redirect()->back();
+        } catch(Exception $e) {
+            $mess = $e->getMessage() ;
+            return redirect()->back();
+        }
+    }
 }
