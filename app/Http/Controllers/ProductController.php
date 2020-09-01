@@ -101,7 +101,22 @@ class ProductController extends Controller
      
     public function show($id){
         $product = $this->productModel->find($id);
-        return view('product.show', compact('product'));
+        
+        $startDate = $product->auction?$product->auction->start_date:'';
+        $formatedStartDate =  date('Y-m-d', strtotime($startDate));   
+        $formatedStartTime =  date('H:i:s', strtotime($startDate));  
+
+        $endDate = $product->auction?$product->auction->end_date:'';
+        $formatedEndDate =  date('Y-m-d', strtotime($endDate));   
+        $formatedEndTime =  date('H:i:s', strtotime($endDate)); 
+        
+        return view('product.show',[
+            'product' => $product,
+            'formatedStartDate' => $formatedStartDate,
+            'formatedStartTime' => $formatedStartTime,
+            'formatedEndDate'  => $formatedEndDate,
+            'formatedEndTime'  => $formatedEndTime,
+        ]);
     }
 
    
