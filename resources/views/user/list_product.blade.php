@@ -2,18 +2,19 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card"> 
+    <div class="row ">
+        <div class="col-lg-12 col-md-8">
+            <div class="row">
+             
                 @foreach($products as $p)   
                     <div class="col-3 text-center">
                         @if(count($p->images)===0)
                         <a href="products/{{$p->id}}">
-                            <img class="img-fluid" style="height: 150px"  src="https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg" alt="">
+                            <img class="img-fluid" style="height: 150px"  src="https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg" alt=""><br>
                         </a>
                         @else
                         <a href="products/{{$p->id}}">
-                            <img class="img-fluid" src="{{'storage/'. $p->images['0']->image_url}}" alt=""> 
+                            <img class="img-fluid" src="{{'storage/'. $p->images['0']->image_url}}" alt=""> <br>
                         </a>
                         @endif
                         <a href="products/{{$p->id}}">
@@ -24,6 +25,7 @@
                         <p class="number">Hạn chót ra giá: {{$p->end_date}}</p>
                     </div>
                 @endforeach
+            </div>
             </div>
         </div>
     </div>

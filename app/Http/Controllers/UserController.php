@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $warning = request(['warning']);
         $products = Product::paginate(config('const.product_paging'))
-                    ->where('status', '=', '1')
+                    ->where('status', 1)
                     ->join('auctions', 'products.id', '=', 'auctions.product_id')
                     ->get();
         return view('user.list_product', ['products'=>$products, 'warning'=>$warning]);
