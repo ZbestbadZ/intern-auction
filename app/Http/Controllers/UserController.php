@@ -24,7 +24,10 @@ class UserController extends Controller
     public function getList_product()
     {
         $warning = request(['warning']);
-        $products = Product::paginate(config('const.product_paging'));
+        $products = Product::paginate(config('const.product_paging'))
+                    ->where('status', '=', '1')
+                    ->join('auctions', 'products.id', '=', 'auctions.product_id')
+                    ->get();
         return view('user.list_product', ['products'=>$products, 'warning'=>$warning]);
     }
 
