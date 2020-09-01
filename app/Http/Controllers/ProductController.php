@@ -41,13 +41,12 @@ class ProductController extends Controller
                 'name' => $image->getClientOriginalName(),
             ]);
             }
-
-            return redirect()->route('products.index');
+        
         } catch(Exception $e) {
             $mess = $e->getMessage() ;
-            return redirect()->route('products.index',['warning' => '1']);
-
+            return redirect()->route('products.index')->withErrors($mess)->withInput();
         }
+        return redirect()->route('products.index');
     }
 
     public function edit($id){
@@ -73,13 +72,12 @@ class ProductController extends Controller
               ]);
             }
             
-            return redirect()->route('products.index');
         }catch(Exception $e) {
             $mess = $e->getMessage() ;
-            return redirect()->route('products.index',['warning' => '1']);
+            return redirect()->route('products.index')->withErrors($mess)->withInput();
 
         }
-        
+        return redirect()->route('products.index');
     }
 
     public function destroy($id){

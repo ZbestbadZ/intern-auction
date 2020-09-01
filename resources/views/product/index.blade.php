@@ -10,7 +10,9 @@
     <div class="container">
         
         <div class="justify-content-center">
-                <div>{{ $warning['warning'] ?? '' }}</div>
+                
+
+                
                 <div class="">
                     <a href="/products/create">Add a new product</a>
                 </div>
@@ -50,6 +52,11 @@
             
         </div>
         <div class=" row justify-center">{{ $products->links() }}</div>
+        <div class="row" style="t">
+            @if ($errors->any())
+                <div class="alert alert-danger text-center">{{ $errors->first() }}</div>
+            @endif
+        </div>
     </div>
    
 </body>
