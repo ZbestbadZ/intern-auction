@@ -87,6 +87,7 @@ class ProductController extends Controller
 
     public function destroy($id){
         $product = $this->productModel->find($id);  
+        
         $product->delete();
         return redirect()->route('products.index');
     }
@@ -102,16 +103,26 @@ class ProductController extends Controller
     public function show($id){
         $product = $this->productModel->find($id);
         
-        $startDate = $product->auction?$product->auction->start_date:'';
+        $auction = $product->auction;
+        
+        $startDate = $auction->start_date;
         $formatedStartDate =  date('Y-m-d', strtotime($startDate));   
         $formatedStartTime =  date('H:i:s', strtotime($startDate));  
 
-        $endDate = $product->auction?$product->auction->end_date:'';
+        $endDate = $auction->end_date;
         $formatedEndDate =  date('Y-m-d', strtotime($endDate));   
         $formatedEndTime =  date('H:i:s', strtotime($endDate)); 
         
+
+        $status = $product->status;
+        $isBidding = $product->is_bidding;
+        $hasBidder = $auction->auctionDetail->user_id;
+
         return view('product.show',[
             'product' => $product,
+            'status'  => $status,
+            'hasBidder'=> $hasBidder,
+            'isBidding' => $isBidding,
             'formatedStartDate' => $formatedStartDate,
             'formatedStartTime' => $formatedStartTime,
             'formatedEndDate'  => $formatedEndDate,
