@@ -21,10 +21,8 @@
                         <a href="products/{{$p->id}}">
                             {{$p->name}}
                         </a>
-                        <p class="number">Giá cao nhất hiện tại: {{$p->start_price}}</p>
-                        <p class="number">Bước giá: {{$p->minimum_bid}}</p>
-                        <p class="number">Hạn chót ra giá: {{$p->end_date}}</p>
-                  
+                        <p class="number">Giá gốc sản phẩm: {{$p->start_price}}</p>
+                        <p class="number">Bước giá: {{$p->minimum_bid}}</p> 
                     </div>
                 @endforeach
             </div>

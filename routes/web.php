@@ -38,7 +38,7 @@ Route::get('admin', ['middleware' => 'isadmin', function () {
 }]);
 
 Route::group(['prefix'=>'user', 'middleware' => 'auth'], function(){
-    Route::get('list_product', 'UserController@getList_product');
+    Route::get('list_product', 'UserController@getList_product')->name('user.list_product');
     Route::get('products/{id}', 'UserController@getShow');
     Route::patch('products/{id}', 'UserController@postAuction');
 });

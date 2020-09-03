@@ -13,6 +13,8 @@ use App\Models\Auction;
 use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -20,40 +22,47 @@ class UserController extends Controller
 
     public function __construct(Product $model)
     {
-        $this->productModel = $model;
+        $this->productModel = $model->select('*');
     }
 
     public function getList_product()
     {
         $warning = request(['warning']);
-        $product = Product::paginate(config('const.product_paging'))
+        $products = Product::paginate(config('const.product_paging'))
                             ->where('status', 1)
                             ->join('auctions', 'products.id', '=', 'auctions.product_id')
                             ->get();
-        $products = $product->where('status', 1);
-                            
-
         return view('user.list_product', ['products'=>$products, 'warning'=>$warning]);
     }
 
     public function getShow($id){
         $product = $this->productModel->find($id);
-       
-        return view('user.detail_product', compact('product'));
+        $auctions = DB::table('auctions')
+                        ->join('auctions_detail', 'auctions.id', '=', 'auctions_detail.auction_id')
+                        ->join('products', 'products.id', '=', 'auctions.product_id')
+                        ->select('auctions.start_date', 'auctions.end_date', 'auctions_detail.bid_price')
+                        ->where('auctions.product_id', $id)
+                        ->get();
+
+        return view('user.detail_product', compact('product', 'auctions'));
     }
 
     public function postAuction(Request $request, $id){
 
         try {
-            $data = $request->only(['bid_price']);
-           
-            $product = Product::find($id)
-                                ->join('auctions_detail', 'products.id', '=', 'auctions_detail.product_id')
-                                ->update($data);
-            return redirect()->back();
+            $data = array();
+            $auction = AuctionDetail::find($id);
+            $data['auction'] = $auction;
+            if ($request->isMethod ('patch')){
+                $bid_price = $request->input('bid_price');
+                $auction->bid_price = $bid_price;
+                $auction->save();
+            }
+                return redirect()->back();
+            
         } catch(Exception $e) {
             $mess = $e->getMessage() ;
-            return redirect()->back();
+            return redirect()->route('user.list_product',['warning' => '1']);
         }
     }
 }

@@ -28,29 +28,31 @@
                     <h3>{{$product->name}}</h3>
                 </div>
                 <div class="row">
-                   Description: {{$product->description}}
+                   <p class="number">Description: {{$product->description}}</p>
                 </div>
                 <div class="row">
-                   is on Auction: {{$product->is_bidding}}
+                   <p class="number">is on Auction: {{$product->is_bidding }}</p>
                 </div>
-                
-            </div>
-            <div class="col-3">
                 <div class="row">
                     <p class="number">Giá gốc: {{$product->start_price}}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Giá cao nhất hiện tại: {{$product->start_price}}</p>
-                </div>
-                <div class="row">
                     <p class="number">Bước giá: {{$product->minimum_bid}}</p>
                 </div>
+            </div>
+            <div class="col-3">
+                @foreach($auctions as $auc)
                 <div class="row">
-                    <p class="number">Ngày mở đấu giá: {{$product->start_date}}</p>
+                    <p class="number">Giá cao nhất hiện tại: {{$auc->bid_price}}</p>
+                </div>
+                
+                <div class="row">
+                    <p class="number">Ngày mở đấu giá: {{$auc->start_date}}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Hạn chót ra giá: {{$product->end_date}}</p>
+                    <p class="number">Hạn chót ra giá: {{$auc->end_date}}</p>
                 </div>
+                
                 <div class="row">
                     @if ($product->is_bidding === 1)
                     <form method="post" enctype="multipart/form-data" action="{{$product->id}}">
@@ -66,6 +68,7 @@
                     </form>
                     @endif 
                 </div>
+                @endforeach
             </div>
 
         </div>
