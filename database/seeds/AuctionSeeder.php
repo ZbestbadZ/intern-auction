@@ -28,13 +28,13 @@ class AuctionSeeder extends Seeder
 
         ]);
 
-        // DB::table('auctions')->insert([
+        DB::table('auctions')->insert([
                     
-        //     'product_id' => '3',
-        //     'start_date' => '2020-9-2 9:15:44',
-        //     'end_date'   => '2020-9-2 22:23:44'
+            'product_id' => '3',
+            'start_date' => '2020-9-2 9:15:44',
+            'end_date'   => '2020-9-2 22:23:44'
 
-        // ]);
+        ]);
 
        
     }
