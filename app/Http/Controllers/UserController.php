@@ -40,7 +40,7 @@ class UserController extends Controller
         $auctions = DB::table('auctions')
                         ->join('auctions_detail', 'auctions.id', '=', 'auctions_detail.auction_id')
                         ->join('products', 'products.id', '=', 'auctions.product_id')
-                        ->select('auctions.start_date', 'auctions.end_date', 'auctions_detail.bid_price')
+                        ->select('auctions.start_date', 'auctions.end_date', 'auctions_detail.bid_price', 'auctions_detail.bid_time')
                         ->where('auctions.product_id', $id)
                         ->get();
 

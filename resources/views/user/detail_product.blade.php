@@ -45,7 +45,9 @@
                 <div class="row">
                     <p class="number">Giá cao nhất hiện tại: {{$auc->bid_price}}</p>
                 </div>
-                
+                <div class="row">
+                    <p class="number">Thời gian đấu giá: {{$auc->bid_time}}</p>
+                </div>
                 <div class="row">
                     <p class="number">Ngày mở đấu giá: {{$auc->start_date}}</p>
                 </div>
