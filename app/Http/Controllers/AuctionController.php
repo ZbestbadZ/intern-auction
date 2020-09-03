@@ -20,7 +20,7 @@ class AuctionController extends Controller
     {
         try {
             $model = $this->auctionModel->find($request->id);
-
+            $product = $model->product;
             $data = $request->only('end_date', );
 
             if ($data['end_date'] !== $model->end_date) {
@@ -31,7 +31,7 @@ class AuctionController extends Controller
 
             switch ($mode) {
                 case 'restart':{
-                        $product = $model->product;
+                       
                         $product->update(['is_bidding'=>'1']);
                         
                         break;
@@ -40,8 +40,8 @@ class AuctionController extends Controller
                         
                     }
                 case 'start':{
-                        $product = $model->product;
                         $product->update(['is_bidding'=>'1']);
+                       
                     }
             }
 
