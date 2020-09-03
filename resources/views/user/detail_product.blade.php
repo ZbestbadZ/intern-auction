@@ -37,26 +37,29 @@
                     <p class="number">Giá gốc: {{$product->start_price}}</p>
                 </div>
                 <div class="row">
+                    <p class="number">Status: {{$product->status}}</p>
+                </div>
+                <div class="row">
                     <p class="number">Bước giá: {{$product->minimum_bid}}</p>
                 </div>
             </div>
             <div class="col-3">
-                @foreach($auctions as $auc)
                 <div class="row">
-                    <p class="number">Giá cao nhất hiện tại: {{$auc->bid_price}}</p>
+                    <p class="number">Giá cao nhất hiện tại: {{$auctionDetail->bid_price??$product->start_price}}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Thời gian đấu giá: {{$auc->bid_time}}</p>
+                    <p class="number">Thời gian đấu giá: {{$auctionDetail->bid_time??'Chua co nguoi dau gia'}}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Ngày mở đấu giá: {{$auc->start_date}}</p>
+                    <p class="number">Ngày mở đấu giá: {{$auction->start_date}}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Hạn chót ra giá: {{$auc->end_date}}</p>
+                    <p class="number">Hạn chót ra giá: {{$auction->end_date}}</p>
                 </div>
-                
+
                 <div class="row">
-                    @if ($product->is_bidding === 1)
+                    
+                    @if ($product->is_bidding == 1)
                     <form method="post" enctype="multipart/form-data" action="{{$product->id}}">
                         @csrf
                         @method('PATCH')
@@ -70,7 +73,7 @@
                     </form>
                     @endif 
                 </div>
-                @endforeach
+               
             </div>
 
         </div>

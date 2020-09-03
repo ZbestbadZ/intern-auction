@@ -18,6 +18,7 @@ class ProductController extends Controller
 
     public function __construct(Product $model)
     {
+        ProductUtilities::checkProducts();
         $this->productModel = $model;
     }
 

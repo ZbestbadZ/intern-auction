@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\AuctionDetail;
+use App\Models\AuctionDetail;
 use Illuminate\Database\Eloquent\Model;
 ;
 
