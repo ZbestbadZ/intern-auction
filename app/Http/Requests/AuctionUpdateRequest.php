@@ -38,7 +38,7 @@ class AuctionUpdateRequest extends FormRequest
     {
 
         return [
-            'end_date' => 'date|after:start_date',
+            'end_date' => 'date|after:now',
         ];
     }
 }

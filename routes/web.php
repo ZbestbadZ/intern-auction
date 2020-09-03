@@ -23,7 +23,7 @@ Route::group(['prefix'=>'/auctions'],function(){
 
 });
 
-Route::group(['prefix'=>'/products'],function(){
+Route::group(['prefix'=>'/products', 'middleware' => ['isadmin']],function(){
     Route::get('', 'ProductController@index')->name('products.index');
 
     Route::post('', 'ProductController@store');

@@ -34,15 +34,31 @@
                    is on Auction: {{$product->is_bidding?'Public':'Non Public'}}
                 </div>
                 <div class="">
-                   @if ($product->is_bidding && $product->auction)
+                   @if (!$isBidding)
                         <form method="POST" action="/auctions/{{$product->auction->id}}" >
                             @csrf
                             @method('PATCH')
-                        <label for="start_date">Start time:</label>
-                        <input type="datetime-local" name="start_date" id="start_date" value="{{$formatedStartDate.'T'.$formatedStartTime}}"><br>
+                        <div>Start time:</div>
+
+                        <div>{{$formatedStartDate.' '.$formatedStartTime}}</div><br>
+                        
+                        @if ($status)
                         <label for="end_date">End time:</label>
                         <input type="datetime-local" name="end_date" id="end_date" value="{{$formatedEndDate.'T'.$formatedEndTime}}"><br>
-                        <button class="btn btn-primary" href="" >Edit</button>
+                        
+                        <button name="mode" value="restart" type="submit" class="btn btn-primary">Restart Auction</button>
+                        @elseif ($hasBidder)
+                        <label for="end_date">End time:</label>
+                        <input type="datetime-local" name="end_date" id="end_date" value="{{$formatedEndDate.'T'.$formatedEndTime}}"><br>
+                        
+                        <button name="mode" value="update" type="submit" class="btn btn-primary"  >Update Close Date</button>
+                        @else
+                        <label for="end_date">End time:</label>
+                        <input type="datetime-local" name="end_date" id="end_date" value="{{$formatedEndDate.'T'.$formatedEndTime}}"><br>
+                        
+                        <button name="mode" value="start" type="submit" class="btn btn-primary"  >Start Auction</button>
+                        @endif 
+                        
                         </form>
                    @endif 
                 </div>
