@@ -17,12 +17,14 @@
                             <img class="img-fluid" src="{{asset('storage/'. $p->images['0']->image_url)}}" alt=""> <br>
                         </a>
                         @endif
+                       
                         <a href="products/{{$p->id}}">
                             {{$p->name}}
                         </a>
                         <p class="number">Giá cao nhất hiện tại: {{$p->start_price}}</p>
                         <p class="number">Bước giá: {{$p->minimum_bid}}</p>
                         <p class="number">Hạn chót ra giá: {{$p->end_date}}</p>
+                  
                     </div>
                 @endforeach
             </div>

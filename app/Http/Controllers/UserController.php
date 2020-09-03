@@ -26,15 +26,19 @@ class UserController extends Controller
     public function getList_product()
     {
         $warning = request(['warning']);
-        $products = Product::paginate(config('const.product_paging'))
-                    ->where('status', 1)
-                    ->join('auctions', 'products.id', '=', 'auctions.product_id')
-                    ->get();
+        $product = Product::paginate(config('const.product_paging'))
+                            ->where('status', 1)
+                            ->join('auctions', 'products.id', '=', 'auctions.product_id')
+                            ->get();
+        $products = $product->where('status', 1);
+                            
+
         return view('user.list_product', ['products'=>$products, 'warning'=>$warning]);
     }
 
     public function getShow($id){
         $product = $this->productModel->find($id);
+       
         return view('user.detail_product', compact('product'));
     }
 

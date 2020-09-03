@@ -37,6 +37,9 @@
             </div>
             <div class="col-3">
                 <div class="row">
+                    <p class="number">Giá gốc: {{$product->start_price}}</p>
+                </div>
+                <div class="row">
                     <p class="number">Giá cao nhất hiện tại: {{$product->start_price}}</p>
                 </div>
                 <div class="row">
@@ -53,7 +56,7 @@
                     <form method="post" enctype="multipart/form-data" action="{{$product->id}}">
                         @csrf
                         @method('PATCH')
-                        <input type="text" name="bid_price" placeholder="Nhập giá">
+                        <input type="text" name="bid_price" placeholder="Nhập giá"><br><br>
                         @error('bid_price')
                                       
                            <strong>{{ $message }}</strong>
