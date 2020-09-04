@@ -16,19 +16,18 @@ class AuctionController extends Controller
         $this->auctionModel = $model;
     }
 
-    public function update(AuctionUpdateRequest $request)
+    public function update(AuctionUpdateRequest $request,$id)
     {
         try {
-            $model = $this->auctionModel->find($request->id);
+            $model = $this->auctionModel->find($id);
             $product = $model->product;
-            $data = $request->only('end_date', );
+            $data = $request->only(['end_date', ]);
+            $mode = $request->only(['mode',]);
 
             if ($data['end_date'] !== $model->end_date) {
                 $data['start_date'] = Carbon::now();
             }
-
-            $mode = $request['mode'];
-
+            
             switch ($mode) {
                 case 'restart':{
                        
