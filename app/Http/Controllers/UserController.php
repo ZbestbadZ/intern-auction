@@ -24,9 +24,7 @@ class UserController extends Controller
         ProductUtilities::checkProducts();
         $warning = request(['warning']);
         $products = Product::where([['status', 0], ['is_bidding', 1]])
-            ->paginate(config('const.product_paging'))
-            ->items();
-
+            ->paginate(config('const.product_paging'));
         return view('user.list_product', ['products' => $products, 'warning' => $warning]);
     }
 
