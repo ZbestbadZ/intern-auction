@@ -63,15 +63,17 @@
                             @csrf
                             @method('PATCH')
                             <input type="text" name="bid_price" placeholder="Nhập giá"><br><br>
-                            @error('bid_price')
+                            <!-- @error('bid_price')
 
-                            <strong>{{ $message }}</strong>
+                            <strong>{{ $message }}</strong><br>
 
-                            @enderror
+                            @enderror -->
+                            
                             <button class="btn btn-primary" type="submit">Đấu giá sản phẩm</button>
                         </form>
                     @endif
                 </div>
+                <br>
                 <div class="row">
                     @if ($errors->any())
                         <div class="alert alert-danger text-center">{{ $errors->first() }}</div>

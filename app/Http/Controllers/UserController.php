@@ -8,6 +8,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Requests\AuctionProductRequest;
 
 class UserController extends Controller
 {
@@ -38,7 +39,7 @@ class UserController extends Controller
         return view('user.detail_product', compact('product', 'auction', 'auctionDetail'));
     }
 
-    public function postAuction(Request $request, $id)
+    public function postAuction(AuctionProductRequest $request, $id)
     {
         try {
 
