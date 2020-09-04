@@ -19,12 +19,19 @@ class Auction extends Model
         'product_id','start_date','end_date',
     ];
 
+    public static  function boot() {
+        parent::boot();
+        static::created(function (Auction $item) {
+            AuctionsDetail::create(['auction_id'=>$item->id,]);
+        });
+    }
+
     public function product(){
         return $this->belongsTo(Product::class, 'product_id' , 'id');
     }
 
-    public function auction_detail()
+    public function auctionDetail()
     {
-        return $this->hasOne(AuctionDetail::class, 'auction_id', 'id');
+        return $this->hasOne(AuctionsDetail::class, 'auction_id', 'id');
     }
 }

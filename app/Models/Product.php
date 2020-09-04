@@ -13,6 +13,13 @@ class Product extends Model
         'name','status','is_bidding','description','start_price', 'minimum_bid',
     ];
 
+    public static  function boot() {
+        parent::boot();
+        static::created(function (Product $item) {
+             Auction::create(['product_id'=>$item->id,]);
+        });
+    }
+
     public function auction(){
 
         return $this->hasOne(Auction::class, 'product_id', 'id');
