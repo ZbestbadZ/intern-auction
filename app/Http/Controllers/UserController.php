@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auction;
-use App\Models\AuctionDetail;
+use App\Models\AuctionsDetail;
 use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-
 
 class UserController extends Controller
 {
@@ -22,16 +21,19 @@ class UserController extends Controller
     public function getList_product()
     {
         ProductUtilities::checkProducts();
-        $warning = request(['warning']);
         $products = Product::where([['status', 0], ['is_bidding', 1]])
             ->paginate(config('const.product_paging'));
-        return view('user.list_product', ['products' => $products, 'warning' => $warning]);
+        
+        return view('user.list_product', [
+            'products' => $products,   
+        ]);
     }
 
     public function getShow($id)
     {
         $product = $this->productModel->find($id);
-        $auctionDetail = $product->auction->auction_detail;
+        $auctionDetail = $product->auction->auctionDetail;
+
         $auction = $product->auction;
         return view('user.detail_product', compact('product', 'auction', 'auctionDetail'));
     }
@@ -40,7 +42,7 @@ class UserController extends Controller
     {
         try {
 
-            $auctionDetail = AuctionDetail::find($id);
+            $auctionDetail = AuctionsDetail::find($id);
 
             if (ProductUtilities::auctionIsOutDate($id)) {
                 return redirect()->route('user.list_product', ['warning' => 'Auction is outdated']);
@@ -55,9 +57,8 @@ class UserController extends Controller
 
         } catch (Exception $e) {
             $mess = $e->getMessage();
-            return redirect()->route('user.list_product', ['warning' => '1']);
+            return redirect()->route('user.list_product', ['warning' => $mess]);
         }
     }
-    
 
 }
