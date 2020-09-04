@@ -10,7 +10,7 @@
                     <div class="col-3 text-center">
                         @if(count($p->images)===0)
                         <a href="products/{{$p->id}}">
-                            <img class="img-fluid" style="height: 150px"  src="{{URL::asset('/storage/uploads/defaultProduct.jpg')}}" alt=""><br>
+                            <img class="img-fluid" style="height: 150px"  src="{{URL::asset('/img/defaultProductImage.jpg')}}" alt=""><br>
                         </a>
                         @else
                         <a href="products/{{$p->id}}">

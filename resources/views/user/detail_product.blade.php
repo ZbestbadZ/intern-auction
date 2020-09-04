@@ -7,7 +7,7 @@
                 @if (count($product->images) === 0)
 
                     <img class="img-fluid" style="height: 150px"
-                        src="{{URL::asset('/storage/uploads/defaultProduct.jpg')}}"
+                        src="{{URL::asset('/storage/uploads/defaultProductImage.jpg')}}"
                         alt="">
 
                 @else
