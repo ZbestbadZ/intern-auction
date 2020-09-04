@@ -17,7 +17,7 @@
                             @if (count($item->images) === 0)
                                 <a href="products/{{ $item->id }}">
                                     <img class="img-fluid" style="height: 150px"
-                                        src="https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg"
+                                        src="{{URL::asset('/storage/uploads/defaultProduct.jpg')}}"
                                         alt="">
                                 </a>
                             @else

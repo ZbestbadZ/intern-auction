@@ -10,7 +10,7 @@
                     <div class="col-3 text-center">
                         @if(count($p->images)===0)
                         <a href="products/{{$p->id}}">
-                            <img class="img-fluid" style="height: 150px"  src="https://vanhoadoanhnghiepvn.vn/wp-content/uploads/2020/08/112815953-stock-vector-no-image-available-icon-flat-vector.jpg" alt=""><br>
+                            <img class="img-fluid" style="height: 150px"  src="{{URL::asset('/storage/uploads/defaultProduct.jpg')}}" alt=""><br>
                         </a>
                         @else
                         <a href="products/{{$p->id}}">
