@@ -26,6 +26,7 @@
                     </div>
                 @endforeach
             </div>
+            <div class=" row justify-center">{{ $products->links() }}</div>
             <div class="row"><div>{{ $warning['warning'] ?? '' }}</div></div>
             </div>
         </div>
