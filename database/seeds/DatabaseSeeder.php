@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\AuctionDetail;
+use App\Models\AuctionsDetail;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -10,14 +12,14 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        $this->call([
-            UserSeeder::class,
-            ProductSeeder::class,
-            AuctionSeeder::class,
-            AuctionDetailSeeder::class,
-        ]);
-       
-                   
+    {   
+        
+        $classes =[
+        UserSeeder::class,
+        ProductSeeder::class,
+        
+        ];
+
+        $this->call($classes);               
     }
 }

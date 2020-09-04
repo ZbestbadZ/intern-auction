@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Product;
+use App\Models\Auction;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ProductSeeder extends Seeder
 {
@@ -12,36 +14,56 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker\Factory::create();
         //product
-        DB::table('products')->insert([
-                    
-            'name' => 'banana',
-            'status' => '1',
-            'is_bidding' => '1',
-            'description' => 'hihi',
-            'start_price' => '123.1',
-            'minimum_bid' => '20.5',
+        for ($x = 0; $x <= 20; $x+=1) {
+            $product = Product::create([
+                'name' => $faker->name(),
+                'status' => '0',
+                'is_bidding' => '1',
+                'description' => $faker->text(),
+                'start_price' => $faker->randomFloat(2,500,1000),
+                'minimum_bid' => $faker->randomFloat(2,40,100),
+            ]);
+            $product->auction->update(['end_date'=>Carbon::now()->addDay()]);
+        }
+        for ($x = 0; $x <= 5; $x+=1) {
+            Product::create([
 
-        ]);
-        DB::table('products')->insert([
-            
-            'name' => 'banana2',
-            'status' => '0',
-            'is_bidding' => '1',
-            'description' => 'hihi',
-            'start_price' => '123.1',
-            'minimum_bid' => '20.5',
-        ]);
-        DB::table('products')->insert([
-            
-            'name' => 'banana3',
-            'status' => '0',
-            'is_bidding' => '0',
-            'description' => 'hihi',
-            'start_price' => '123.1',
-            'minimum_bid' => '20.5',
+                'name' => $faker->name(),
+                'status' => '1',
+                'is_bidding' => '1',
+                'description' => $faker->text(),
+                'start_price' => $faker->randomFloat(2,500,1000),
+                'minimum_bid' => $faker->randomFloat(2,40,100),
+    
+            ]);
+           
+            Product::create([
 
-        ]);
+                'name' => $faker->name(),
+                'status' => '1',
+                'is_bidding' => '0',
+                'description' => $faker->text(),
+                'start_price' => $faker->randomFloat(2,500,1000),
+                'minimum_bid' => $faker->randomFloat(2,40,100),
+    
+            ]);
+            Product::create([
+
+                'name' => $faker->name(),
+                'status' => '0',
+                'is_bidding' => '0',
+                'description' => $faker->text(),
+                'start_price' => $faker->randomFloat(2,500,1000),
+                'minimum_bid' => $faker->randomFloat(2,40,100),
+    
+            ]);
+          }
+       
+        
+        
+        
 
         //
     }

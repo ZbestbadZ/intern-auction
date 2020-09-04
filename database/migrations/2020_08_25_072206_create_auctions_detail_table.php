@@ -16,10 +16,11 @@ class CreateAuctionsDetailTable extends Migration
         Schema::create('auctions_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('auction_id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('bid_price');
-            $table->datetime('bid_time');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('bid_price')->nullable();
+            $table->datetime('bid_time')->nullable();
             $table->timestamps();
+            
         });
     }
 
