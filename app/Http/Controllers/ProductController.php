@@ -7,8 +7,8 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Exception;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Request;
 
 class ProductController extends Controller
 {
@@ -31,17 +31,20 @@ class ProductController extends Controller
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
 
             $product = Product::create($data);
+            $files = $request->file('image');
 
-            $image = request()->file(['image']);
+            if ($request->hasFile('image')) {
 
-            if (isset($image)) {
-                $imgPath = $image->store('uploads/' . $product->id, 'public');
+                foreach ($files as $file) {
+                    $imgPath = $file->store('uploads/' . $product->id, 'public');
 
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'image_url' => $imgPath,
-                    'name' => $image->getClientOriginalName(),
-                ]);
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_url' => $imgPath,
+                        'name' => $file->getClientOriginalName(),
+                    ]);
+
+                }
             }
 
         } catch (Exception $e) {
@@ -53,7 +56,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        
+
         $product = $this->productModel->find($id);
 
         $hasBidder = $product->auction->auctionDetail->user_id;
@@ -76,15 +79,21 @@ class ProductController extends Controller
 
             $product = Product::find($id);
             $product->update($data);
-            $image = request()->file(['image']);
-            if (isset($image)) {
-                $imgPath = $image->store('uploads/' . $product->id, 'public');
+            
+            $files = $request->file('image');
 
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'image_url' => $imgPath,
-                    'name' => $image->getClientOriginalName(),
-                ]);
+            if ($request->hasFile('image')) {
+
+                foreach ($files as $file) {
+                    $imgPath = $file->store('uploads/' . $product->id, 'public');
+
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_url' => $imgPath,
+                        'name' => $file->getClientOriginalName(),
+                    ]);
+
+                }
             }
 
         } catch (Exception $e) {
@@ -127,9 +136,8 @@ class ProductController extends Controller
 
         $startDate = Carbon::parse($auction->start_date);
 
-
-        $endDate = Carbon::parse($auction->end_date);
-
+        $endDate = $auction->end_date?Carbon::parse($auction->end_date):'';
+        
         $status = $product->status;
         $isBidding = $product->is_bidding;
         $hasBidder = $auction->auctionDetail->user_id;
@@ -141,7 +149,7 @@ class ProductController extends Controller
             'isBidding' => $isBidding,
             'startDate' => $startDate,
             'endDate' => $endDate,
-            
+
         ]);
     }
 

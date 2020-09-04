@@ -19,8 +19,9 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description: </label>
-                        <input class="form-control" type="text" name="description" id="description"
-                            value="{{ $product->description }}">
+                        <textarea rows="4" cols="50" class="form-control"  name="description" id="description">{{ $product->description }}
+                        </textarea>
+                        
                         @error('description')
 
                         <strong>{{ $message }}</strong>
@@ -57,7 +58,7 @@
                         <input type="checkbox" name="is_bidding" id="ispublic" @if ($product->is_bidding) checked=checked @endif>
                     </div>
                     <div class="form-group">
-                        <input type="file" class="form-control-file" id="image" name="image">
+                        <input type="file" class="form-control-file" id="image" name="image[]" multiple>
                         @error('image')
                         <strong>{{ $message }}</strong>
                         @enderror

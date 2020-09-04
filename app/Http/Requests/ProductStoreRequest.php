@@ -26,7 +26,7 @@ class ProductStoreRequest extends FormRequest
         return [
             'name' => 'required|max:40',
             'description'=>'required|max:255',
-            'image'=> 'image',
+            'image.*'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'minimum_bid' =>'numeric',
             'start_price' => 'numeric',
         ];

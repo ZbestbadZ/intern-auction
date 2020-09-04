@@ -17,7 +17,8 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description: </label>
-                        <input class="form-control" type="text" name="description" id="description" value="">
+                        <textarea rows="4" cols="50" class="form-control" name="description" id="description">
+                            </textarea>
                         @error('description')
 
                         <strong>{{ $message }}</strong>
@@ -47,10 +48,10 @@
 
                     <div class="form-group">
                         <label for="ispublic">On auction: </label>
-                        <input type="checkbox" name="is_bidding" id="ispublic">
+                        <input onclick="return function(){if(document.getElementById('ispublic').getAttribute('checked')) }" type="checkbox" name="is_bidding" id="ispublic">
                     </div>
                     <div class="form-group">
-                        <input type="file" class="form-control-file" id="image" name="image">
+                        <input type="file" class="form-control-file" id="image" name="image[]" multiple>
                         @error('image')
                         <strong>{{ $message }}</strong>
                         @enderror

@@ -45,21 +45,21 @@
                             @if ($status)
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{ $endDate->format('Y-m-d\TH:i:s') }}"><br>
+                                    value="{{  $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
 
                                 <button name="mode" value="restart" type="submit" class="btn btn-primary">Restart
                                     Auction</button>
                             @elseif ($hasBidder)
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{ $endDate->format('Y-m-d\TH:i:s') }}"><br>
+                                    value="{{   $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
 
                                 <button name="mode" value="update" type="submit" class="btn btn-primary">Update Close
                                     Date</button>
                             @else
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{ $endDate->format('Y-m-d\TH:i:s') }}"><br>
+                                    value="{{   $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
 
                                 <button name="mode" value="start" type="submit" class="btn btn-primary">Start
                                     Auction</button>
@@ -74,7 +74,7 @@
                         <div>{{ $startDate->format('F j, Y, g:i a') }}</div><br>
                         <div>End time:</div>
 
-                        <div>{{ $endDate->format('F j, Y, g:i a') }}</div><br>
+                        <div>{{ $endDate?$endDate->format('F j, Y, g:i a'):$endDate }}</div><br>
                     @endif
                 </div>
 

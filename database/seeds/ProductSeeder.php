@@ -28,16 +28,7 @@ class ProductSeeder extends Seeder
             $product->auction->update(['end_date'=>Carbon::now()->addDay()]);
         }
         for ($x = 0; $x <= 5; $x+=1) {
-            Product::create([
-
-                'name' => $faker->name(),
-                'status' => '1',
-                'is_bidding' => '1',
-                'description' => $faker->text(),
-                'start_price' => $faker->randomFloat(2,500,1000),
-                'minimum_bid' => $faker->randomFloat(2,40,100),
-    
-            ]);
+            
            
             Product::create([
 
