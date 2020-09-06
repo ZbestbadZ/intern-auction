@@ -58,14 +58,13 @@ class ProductController extends Controller
     {
 
         $product = $this->productModel->find($id);
-
-        $hasBidder = $product->auction->auctionDetail->user_id;
-        if ($hasBidder) {
+        if ($product->hasBidder()) {
             $mess = "This Item has bidders in process can't be alter";
             return redirect()->route('products.index')->withErrors($mess);
         }
-
-        return view('product.edit', compact('product'));
+        $images = $product->images;
+        
+        return view('product.edit', compact('product', 'images'));
     }
 
     public function update(ProductUpdateRequest $request, $id)
@@ -79,7 +78,7 @@ class ProductController extends Controller
 
             $product = Product::find($id);
             $product->update($data);
-            
+
             $files = $request->file('image');
 
             if ($request->hasFile('image')) {
@@ -101,7 +100,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->withErrors($mess)->withInput();
 
         }
-        return redirect()->route('products.index');
+        return redirect()->back()->withInput();
     }
 
     public function destroy($id)
@@ -109,8 +108,7 @@ class ProductController extends Controller
 
         $product = $this->productModel->find($id);
 
-        $hasBidder = $product->auction->auctionDetail->user_id;
-        if ($hasBidder) {
+        if ($product->hasBidder()) {
             $mess = "This Item has bidders in process can't be alter";
             return redirect()->route('products.index')->withErrors($mess);
         }
@@ -136,16 +134,16 @@ class ProductController extends Controller
 
         $startDate = Carbon::parse($auction->start_date);
 
-        $endDate = $auction->end_date?Carbon::parse($auction->end_date):'';
-        
+        $endDate = $auction->end_date ? Carbon::parse($auction->end_date) : '';
+
         $status = $product->status;
         $isBidding = $product->is_bidding;
-        $hasBidder = $auction->auctionDetail->user_id;
+        $bidder = Product::find($auction->auctionDetail->user_id);
 
         return view('product.show', [
             'product' => $product,
             'status' => $status,
-            'hasBidder' => $hasBidder,
+            'bidder' => $bidder,
             'isBidding' => $isBidding,
             'startDate' => $startDate,
             'endDate' => $endDate,

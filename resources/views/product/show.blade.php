@@ -6,8 +6,7 @@
             <div class="col-6">
                 @if (count($product->images) === 0)
 
-                    <img class="img-fluid" style="height: 150px"
-                        src="{{URL::asset('/img/defaultProductImage.jpg')}}"
+                    <img class="img-fluid" style="height: 150px" src="{{ URL::asset('/img/defaultProductImage.jpg') }}"
                         alt="">
 
                 @else
@@ -45,21 +44,22 @@
                             @if ($status)
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{  $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
+                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
 
                                 <button name="mode" value="restart" type="submit" class="btn btn-primary">Restart
                                     Auction</button>
-                            @elseif ($hasBidder)
+                            @elseif ($bidder)
+                                <div>Current top bidder: {{ $bidder->name }}</div>
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{   $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
+                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
 
                                 <button name="mode" value="update" type="submit" class="btn btn-primary">Update Close
                                     Date</button>
                             @else
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{   $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
+                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
 
                                 <button name="mode" value="start" type="submit" class="btn btn-primary">Start
                                     Auction</button>
@@ -74,7 +74,7 @@
                         <div>{{ $startDate->format('F j, Y, g:i a') }}</div><br>
                         <div>End time:</div>
 
-                        <div>{{ $endDate?$endDate->format('F j, Y, g:i a'):$endDate }}</div><br>
+                        <div>{{ $endDate ? $endDate->format('F j, Y, g:i a') : $endDate }}</div><br>
                     @endif
                 </div>
 
