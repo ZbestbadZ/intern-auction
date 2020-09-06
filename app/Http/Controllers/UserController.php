@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuctionProductRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -50,6 +52,7 @@ class UserController extends Controller
             }
 
             $bid_price = $request->input('bid_price');
+            $auctionDetail->user_id = Auth::user()->id;
             $auctionDetail->bid_price = $bid_price;
             $auctionDetail->bid_time = Carbon::now();
             $auctionDetail->save();

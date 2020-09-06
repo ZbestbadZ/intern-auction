@@ -13,8 +13,7 @@ class AuctionDetailSeeder extends Seeder
     public function run()
     {
         DB::table('auctions_detail')->insert([
-            'auction_id' => '1',  
-            'user_id' => '1',  
+            'auction_id' => '1',    
         ]);
         DB::table('auctions_detail')->insert([
             'auction_id' => '2',    
