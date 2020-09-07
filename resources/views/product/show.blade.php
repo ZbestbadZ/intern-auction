@@ -6,7 +6,8 @@
             <div class="col-6">
                 @if (count($product->images) === 0)
 
-                    <img class="img-fluid" style="height: 150px" src="{{ URL::asset('/img/defaultProductImage.jpg') }}"
+                    <img class="img-fluid" style="height: 150px"
+                        src="{{URL::asset('/img/defaultProductImage.jpg')}}"
                         alt="">
 
                 @else
@@ -20,19 +21,19 @@
             </div>
 
             <div class="col-6">
-                <div class="">
+                <div class="pb-4">
                     <h3>{{ $product->name }}</h3>
                 </div>
-                <div class="">
+                <div class="pb-4">
                     Description: {{ $product->description }}
                 </div>
-                <div class="">
+                <div class="pb-4">
                     Status: {{ $status ? 'Successful' : 'In Process' }}
                 </div>
-                <div class="">
+                <div class="pb-4">
                     is on Auction: {{ $product->is_bidding ? 'Public' : 'Non Public' }}
                 </div>
-                <div class="">
+                <div class="pb-4">
                     @if (!$isBidding)
                         <form method="POST" action="/auctions/{{ $product->auction->id }}">
                             @csrf
@@ -44,22 +45,21 @@
                             @if ($status)
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
+                                    value="{{  $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
 
                                 <button name="mode" value="restart" type="submit" class="btn btn-primary">Restart
                                     Auction</button>
                             @elseif ($bidder)
-                                <div>Current top bidder: {{ $bidder->name }}</div>
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
+                                    value="{{   $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
 
                                 <button name="mode" value="update" type="submit" class="btn btn-primary">Update Close
                                     Date</button>
                             @else
                                 <label for="end_date">End time:</label>
                                 <input type="datetime-local" name="end_date" id="end_date"
-                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
+                                    value="{{   $endDate?$endDate->format('Y-m-d\TH:i:s'):$endDate }}"><br>
 
                                 <button name="mode" value="start" type="submit" class="btn btn-primary">Start
                                     Auction</button>
@@ -74,7 +74,7 @@
                         <div>{{ $startDate->format('F j, Y, g:i a') }}</div><br>
                         <div>End time:</div>
 
-                        <div>{{ $endDate ? $endDate->format('F j, Y, g:i a') : $endDate }}</div><br>
+                        <div>{{ $endDate?$endDate->format('F j, Y, g:i a'):$endDate }}</div><br>
                     @endif
                 </div>
 
