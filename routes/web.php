@@ -39,6 +39,10 @@ Route::group(['prefix'=>'/products', 'middleware' => ['isadmin']],function(){
     Route::delete('/{id}','ProductController@destroy')->name('products.destroy');    
 });
 
+Route::group(['prefix'=>'productImage','middleware' => ['isadmin']] , function(){
+    Route::delete('/{id}','productImageController@destroy')->name('productImage.destroy'); 
+});
+
 Route::get('admin', ['middleware' => 'isadmin', function () {
     return view('admin.admin');
 }]);
