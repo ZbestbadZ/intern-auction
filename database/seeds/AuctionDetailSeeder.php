@@ -14,7 +14,9 @@ class AuctionDetailSeeder extends Seeder
     public function run()
     {
         for ($x = 1; $x <= 6; $x+=1) {
-        DB::table('auctions_detail')->insert([
+        DB::table('auctions_detail')
+        ->where(['id' => $x])
+        ->update([
             'auction_id' => $x,
             'user_id' => $x ,
             'bid_price'=> '1000',

@@ -16,6 +16,17 @@ class ProductSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
         //product
+        for ($x = 0; $x <= 2; $x+=1) {
+            $product = Product::create([
+                'name' => $faker->name(),
+                'status' => '0',
+                'is_bidding' => '1',
+                'description' => $faker->text(),
+                'start_price' => $faker->randomFloat(2,500,1000),
+                'minimum_bid' => $faker->randomFloat(2,40,100),
+            ]);
+            $product->auction->update(['end_date'=>Carbon::now()]);
+        }
         for ($x = 0; $x <= 8; $x+=1) {
             $product = Product::create([
                 'name' => $faker->name(),
