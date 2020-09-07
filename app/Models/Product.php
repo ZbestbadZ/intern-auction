@@ -30,6 +30,10 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
     public function hasBidder(){
+       
         return $hasBidder = $this->auction->auctionDetail->user_id;
+    }
+    public function getHighestBidPrice() {
+        return $this->auction->auctionDetail->bid_price;
     }
 }

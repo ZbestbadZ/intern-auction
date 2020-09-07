@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Exception;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
 class ProductController extends Controller
@@ -63,7 +64,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->withErrors($mess);
         }
         $images = $product->images;
-        
+
         return view('product.edit', compact('product', 'images'));
     }
 
@@ -117,12 +118,26 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $warning = request(['warning']);
 
-        $products = Product::paginate(config('const.product_paging'));
+        if (request(['search'])) {
+            try {
+                $search = request('search');
+                $products = Product::where('name', 'like', '%' . $search . '%')
+                    ->paginate(config('const.product_paging'));
+                    
+            } catch (Exception $e) {
+                $mess = $e->getMessage();
+                return redirect()->route('products.index')->withErrors($mess);
+
+            }
+        } else {
+            $products = Product::paginate(config('const.product_paging'));
+        }
         
+
         return view('product.index', ['products' => $products, 'warning' => $warning]);
 
     }
@@ -139,7 +154,7 @@ class ProductController extends Controller
 
         $status = $product->status;
         $isBidding = $product->is_bidding;
-        $bidder = Product::find($auction->auctionDetail->user_id);
+        $bidder = Product::find($id)->hasbidder();
 
         return view('product.show', [
             'product' => $product,

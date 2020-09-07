@@ -3,10 +3,23 @@
 @section('content')
     <div class="container">
 
-        <div class="">
-            <div class="">
+        <div class="row">
+            <div class="form-group col-6">
+                <form action="\products" method="GET" >
+                    <input type="text" name="search" placeholder="Name: ex(banana)">
+                    <button class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <div class="col-6">
                 <a href="/products/create">Add a new product</a>
             </div>
+            
+                @if ($errors->any())
+                <div class="row" style="">
+                    <div class="alert alert-danger text-center">{{ $errors->first() }}</div>
+                </div>
+                @endif
+           
 
             <div class="row justify-content-center">
                 @foreach ($products as $item)
@@ -18,7 +31,7 @@
                                     <img class="img-fluid" style="height: 150px"
                                         src="{{ URL::asset('/img/defaultProductImage.jpg') }}" alt="">
                                 </a>
-                                
+
                             @else
 
                                 <a href="products/{{ $item->id }}">
@@ -26,7 +39,8 @@
                                 </a>
                             @endif
                             <a href="products/{{ $item->id }}">{{ $item->name }}</a>
-                            <p>{{$item->hasBidder??'Doesnt have bidder'}}</p>
+                            <p>{{ $item->hasBidder() ? 'Current highest price: ' . $item->getHighestBidPrice() : 'Doesnt have bidder' }}
+                            </p>
                         </div>
                         <div class="col-2 float-right">
                             <form method="GET" action="{{ url("/products/{$item->id}/edit") }}">
@@ -45,10 +59,6 @@
 
         </div>
         <div class=" row justify-center">{{ $products->links() }}</div>
-        <div class="row" style="t">
-            @if ($errors->any())
-                <div class="alert alert-danger text-center">{{ $errors->first() }}</div>
-            @endif
-        </div>
+
     </div>
 @endsection
