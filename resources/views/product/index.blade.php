@@ -4,16 +4,28 @@
     <div class="container">
 
         <div class="row">
-            <div class="form-group col-6">
+            <div class="form-group col-4">
                 <form action="\products" method="GET" >
                     <input type="text" name="search" placeholder="Name: ex(banana)">
                     <button class="btn btn-primary">Search</button>
                 </form>
             </div>
+            
             <div class="col-6">
                 <a href="/products/create">Add a new product</a>
             </div>
-            
+            <div class=" col-4 ">
+                <form action="\products" method="GET" >
+                    <label for="sortBy">Sort By:</label>
+                    <select id="sortBy" name="sortBy">
+                      <option value="name">Name</option>
+                      <option value="endDate">End Date</option>
+                      <option value="startDate">Start Date</option>
+                      <option value="highestBid">HighestBid</option>
+                    </select>
+                    <button class="btn btn-primary">Sort</button>
+                </form>
+            </div>
                 @if ($errors->any())
                 <div class="row" style="">
                     <div class="alert alert-danger text-center">{{ $errors->first() }}</div>

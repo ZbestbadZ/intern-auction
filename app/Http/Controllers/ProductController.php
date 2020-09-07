@@ -121,7 +121,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $warning = request(['warning']);
-
+        $products = null;
         if (request(['search'])) {
             try {
                 $search = request('search');
@@ -133,7 +133,38 @@ class ProductController extends Controller
                 return redirect()->route('products.index')->withErrors($mess);
 
             }
-        } else {
+        } else if(request('sortBy')) {
+            try {
+                switch(request('sortBy')) {
+                    case 'name' :{
+                        $products = Product::orderBy('name',)
+                    ->paginate(config('const.product_paging'));
+                    break;
+                    }
+                    case 'endDate' :{
+                        $products = Product::orderBy('endDate',)
+                    ->paginate(config('const.product_paging'));
+                    break;
+                    }
+                    case 'startDate' :{
+                        $products = Product::orderBy('startDate',)
+                    ->paginate(config('const.product_paging'));
+                   
+                    break;
+                    }
+                    case 'highestBidd' :{
+                        $products = Product::orderBy('highestBid',)
+                        ->paginate(config('const.product_paging'));
+                    break;
+                    }
+                }
+            } catch (Exception $e) {
+                $mess = $e->getMessage();
+                return redirect()->route('products.index')->withErrors($mess);
+
+            }
+        } 
+        else {
             $products = Product::paginate(config('const.product_paging'));
         }
         
