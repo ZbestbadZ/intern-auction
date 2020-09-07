@@ -124,6 +124,7 @@ class ProductController extends Controller
         $warning = request(['warning']);
 
         $products = Product::paginate(config('const.product_paging'));
+        
         return view('product.index', ['products' => $products, 'warning' => $warning]);
 
     }
