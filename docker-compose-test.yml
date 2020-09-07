@@ -19,6 +19,8 @@ services:
       - auction-test-laravel
     depends_on:
       - auction-test-laravel
+    networks:
+      backend:
 
   auction-test-laravel:
     image: auction-test-laravel:latest

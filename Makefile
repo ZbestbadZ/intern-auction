@@ -35,3 +35,6 @@ npm-dev:
 
 npm-install:
 	make exec cmd="npm install"
+
+restart:
+	make stop && make start
