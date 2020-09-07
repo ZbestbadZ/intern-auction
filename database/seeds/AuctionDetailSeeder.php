@@ -13,13 +13,15 @@ class AuctionDetailSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker\Factory::create();
+        
         for ($x = 1; $x <= 6; $x+=1) {
         DB::table('auctions_detail')
         ->where(['id' => $x])
         ->update([
             'auction_id' => $x,
             'user_id' => $x ,
-            'bid_price'=> '1000',
+            'bid_price'=> $faker->randomFloat(2,1100,2000),
             'bid_time'=> Carbon::now(),
         ]);
         }

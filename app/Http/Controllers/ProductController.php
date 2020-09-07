@@ -139,23 +139,26 @@ class ProductController extends Controller
                     case 'name' :{
                         $products = Product::orderBy('name',)
                     ->paginate(config('const.product_paging'));
+                    $products->withPath('products?sortBy=name');
                     break;
                     }
                     case 'endDate' :{
                         $products = Product::orderBy('endDate',)
                     ->paginate(config('const.product_paging'));
+                    $products->withPath('products?sortBy=endDate');
                     break;
                     }
                     case 'startDate' :{
                         $products = Product::orderBy('startDate',)
                     ->paginate(config('const.product_paging'));
+                    $products->withPath('products?sortBy=startDate');
                    
                     break;
                     }
-                    case 'highestBidd' :{
-                        $products = Product::orderBy('highestBid',)
-                        ->paginate(config('const.product_paging'));
-                    break;
+                    
+                    
+                    default: {
+                        $products = Product::paginate(config('const.product_paging'));
                     }
                 }
             } catch (Exception $e) {
@@ -168,7 +171,7 @@ class ProductController extends Controller
             $products = Product::paginate(config('const.product_paging'));
         }
         
-
+        
         return view('product.index', ['products' => $products, 'warning' => $warning]);
 
     }

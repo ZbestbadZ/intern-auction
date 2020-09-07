@@ -21,7 +21,7 @@
                       <option value="name">Name</option>
                       <option value="endDate">End Date</option>
                       <option value="startDate">Start Date</option>
-                      <option value="highestBid">HighestBid</option>
+                      
                     </select>
                     <button class="btn btn-primary">Sort</button>
                 </form>
