@@ -17,7 +17,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix'=>'/products'],function(){
+Route::group(['prefix'=>'/auctions'],function(){
+    
+    Route::patch('/{id}','AuctionController@update')->name('auctions.update');
+
+});
+
+Route::group(['prefix'=>'/products', 'middleware' => ['isadmin']],function(){
     Route::get('', 'ProductController@index')->name('products.index');
 
     Route::post('', 'ProductController@store');
