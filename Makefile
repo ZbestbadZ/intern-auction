@@ -12,6 +12,9 @@ supervisord=auction-$(env)-supervisord
 build:
 	@docker-compose -f docker-compose-$(env).yml build
 
+build-nginx:
+	@docker-compose -f docker-compose-$(env).yml build auction-test-nginx
+
 exec:
 	@docker-compose -f docker-compose-$(env).yml $(project) exec -T $(container) $$cmd
 
