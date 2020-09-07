@@ -38,3 +38,6 @@ npm-install:
 
 restart:
 	make stop && make start
+
+ssh:
+	@docker exec -it $(container) bash
