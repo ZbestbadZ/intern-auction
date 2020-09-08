@@ -45,7 +45,14 @@
 
                         @enderror
                     </div>
-
+                    <div class="form-group">
+                        <label for="end_date">End time:</label>
+                        <input type="datetime-local" name="end_date" id="end_date"
+                            value=""><br>
+                            @error ('end_date')
+                            <strong>{{ $message }}</strong>
+                            @enderror
+                    </div>
                     <div class="form-group">
                         <label for="ispublic">On auction: </label>
                         <input onclick="return function(){if(document.getElementById('ispublic').getAttribute('checked')) }" type="checkbox" name="is_bidding" id="ispublic">

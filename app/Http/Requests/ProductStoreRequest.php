@@ -15,7 +15,17 @@ class ProductStoreRequest extends FormRequest
     {
         return true;
     }
+    protected function prepareForValidation()
+    {
 
+        $start_date = str_replace('T', ' ', $this['start_date']);
+        $end_date = str_replace('T', ' ', $this['end_date']);
+
+        $this->merge([
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+        ]);
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,6 +39,15 @@ class ProductStoreRequest extends FormRequest
             'image.*'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'minimum_bid' =>'numeric',
             'start_price' => 'numeric',
+            'end_date' => 'required|date|after:now',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'end_date.required' =>'Date is require',
+            'end_date.date' => 'End must be date',
+            'end_date.after' => 'Invalid Date',
         ];
     }
 }
