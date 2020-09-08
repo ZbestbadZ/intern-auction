@@ -32,8 +32,12 @@ class ProductController extends Controller
         try {
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
 
+            $data['is_bidding'] = isset($request->is_bidding);
+            
             $product = Product::create($data);
             $files = $request->file('image');
+
+            
 
             if ($request->hasFile('image')) {
                 
@@ -72,13 +76,14 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, $id)
     {
         try {
+            $product = Product::find($id);
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
 
-            if (!isset($data['is_bidding'])) {
-                $data['is_bidding'] = false;
-            }
+            $data['is_bidding'] = isset($request->is_bidding);
 
-            $product = Product::find($id);
+            if($data['is_bidding'] && $product->status)$data['status'] = false;
+
+            
             $product->update($data);
 
             $files = $request->file('image');

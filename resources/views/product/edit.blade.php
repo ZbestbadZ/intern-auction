@@ -54,10 +54,13 @@
                     </div>
 
                     <div class="form-group">
+                        @if($product->status == 1)
+                        Product is successfully finish if you wish to restart auction <a href="/products/{{$product->id}}">Click here</a> 
+                        @else
                         <label for="ispublic">On auction: </label>
-
                         <input type="checkbox" name="is_bidding" id="ispublic" @if ($product->is_bidding) checked=checked @endif>
-                    </div>
+                        @endif
+                        </div>
                     <div class="form-group">
                         @if(count($images)!=0)
                         <table class="table">
@@ -71,7 +74,7 @@
                                 <tr>
                                     <td>
                                         <div class="w-50">
-                                            <img class="img-fluid" src="{{ :asset('storage/' . $item->image_url) }}" alt="">
+                                            <img class="img-fluid" src="{{ asset('storage/' . $item->image_url) }}" alt="">
                                         </div>
                                     </td>
                                     <td>
@@ -81,7 +84,7 @@
                                     </td>
                                     <td>
                                         <div>
-                                            {{}}
+                                         
                                         </div>
                                     </td>
                                     <td>
@@ -102,7 +105,7 @@
                         <strong>{{ $message }}</strong>
                         @enderror
                     </div>
-                    <button class="btn btn-primary" type="submit" name="edit">Edit</button>
+                    <button class="btn btn-primary" type="submit" name="edit">Save</button>
                 </form>
 
             </div>
