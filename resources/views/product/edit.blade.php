@@ -32,9 +32,15 @@
 
                     <div class="form-group">
                         <label for="startprice">Start price: </label>
-                        <input class="form-control" type="text" name="start_price" id="startprice"
-                            value="{{ $product->start_price }}">
-                        @error('startprice')
+                        @if ($hasBidder)
+
+                            <br><span>{{ $product->start_price }}</span>
+                        @else
+                            <input class="form-control" type="text" name="start_price" id="startprice"
+                                value="{{ $product->start_price }}">
+                        @endif
+
+                        @error('start_price')
 
                         <strong>{{ $message }}</strong>
 
@@ -46,7 +52,7 @@
 
                         <input class="form-control" type="text" name="minimum_bid" id="minimumbid"
                             value="{{ $product->minimum_bid }}">
-                        @error('minimumbid')
+                        @error('minimum_bid')
 
                         <strong>{{ $message }}</strong>
 
@@ -55,15 +61,23 @@
 
                     <div class="form-group">
                         @if ($product->status == 1)
-                            Product is successfully finish if you wish to restart auction <a
-                                href="/products/{{ $product->id }}">Click here</a>
+                            Product is successfully finished an auction session if you wish to restart auction <a
+                                href="/products/{{$product->id }}/edit?restart=1">Click here</a>
                         @else
+                            <div class="form-group">
+                                <label for="end_date">End time:</label>
+                                <input type="datetime-local" name="end_date" id="end_date"
+                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
+                                @error ('end_date')
+                                <strong>{{ $message }}</strong>
+                                @enderror
+                            </div>
                             <label for="ispublic">On auction: </label>
                             <input type="checkbox" name="is_bidding" id="ispublic" @if ($product->is_bidding) checked=checked @endif>
                         @endif
                     </div>
                     <div class="form-group">
-                        
+
                         @if (count($images) != 0)
                             <table class="table">
                                 <tr>
@@ -91,12 +105,13 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <form action=""></form>
                                             <form method="POST" action="{{ url("/productImage/{$item->id}") }}">
                                                 @csrf
                                                 @method('DELETE')
+
                                                 <button class="btn btn-primary" type="submit">Delete</button>
                                             </form>
-
                                         </td>
                                     </tr>
                                 @endforeach

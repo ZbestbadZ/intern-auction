@@ -8,9 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Exception;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
-
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -33,23 +31,21 @@ class ProductController extends Controller
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
 
             $data['is_bidding'] = isset($request->is_bidding);
-            
+
             $product = Product::create($data);
             $files = $request->file('image');
 
-            
-
             if ($request->hasFile('image')) {
-                
+
                 foreach ($files as $file) {
                     $imgPath = $file->store('uploads/' . $product->id, 'public');
 
-                    $image =ProductImage::create([
+                    $image = ProductImage::create([
                         'product_id' => $product->id,
                         'image_url' => $imgPath,
                         'name' => $file->getClientOriginalName(),
                     ]);
-                   
+
                 }
             }
 
@@ -60,17 +56,30 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
+        try {
+            
 
-        $product = $this->productModel->find($id);
-        if ($product->hasBidder()) {
-            $mess = "This Item has bidders in process can't be alter";
-            return redirect()->route('products.index')->withErrors($mess);
+            $product = $this->productModel->find($id);
+            
+            if($request->has('restart')) {
+                $data = $product->attributesToArray();
+                $data['status'] = false;
+                $product->update($data);
+            }
+            
+            $hasBidder = $product->hasBidder();
+            $images = $product->images;
+            $endDate = Carbon::parse($product->auction->end_date);
+            $startDate = Carbon::parse($product->auction->start_date);
+
+        } catch (Exception $e) {
+            $mess = $e->getMessage();
+            return redirect()->route('products.index')->withErrors($mess)->withInput();
         }
-        $images = $product->images;
 
-        return view('product.edit', compact('product', 'images'));
+        return view('product.edit', compact('product', 'images', 'hasBidder', 'endDate', 'startDate',));
     }
 
     public function update(ProductUpdateRequest $request, $id)
@@ -79,17 +88,20 @@ class ProductController extends Controller
             $product = Product::find($id);
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
 
-            $data['is_bidding'] = isset($request->is_bidding);
-
-            if($data['is_bidding'] && $product->status)$data['status'] = false;
-
-            
-            $product->update($data);
+            $endDate = $request->end_date;
 
             $files = $request->file('image');
 
+            if ($data['is_bidding'] && $product->status) {
+                $data['status'] = false;
+            }
+
+            $product->auction->update(['end_date' => $endDate]);
+
+            $product->update($data);
+
             if ($request->hasFile('image')) {
-                
+
                 foreach ($files as $file) {
                     $imgPath = $file->store('uploads/' . $product->id, 'public');
 
@@ -115,11 +127,6 @@ class ProductController extends Controller
 
         $product = $this->productModel->find($id);
 
-        if ($product->hasBidder()) {
-            $mess = "This Item has bidders in process can't be alter";
-            return redirect()->route('products.index')->withErrors($mess);
-        }
-
         $product->delete();
         return redirect()->route('products.index');
     }
@@ -133,54 +140,51 @@ class ProductController extends Controller
                 $search = request('search');
                 $products = Product::where('name', 'like', '%' . $search . '%')
                     ->paginate(config('const.product_paging'));
-                    
+
             } catch (Exception $e) {
                 $mess = $e->getMessage();
                 return redirect()->route('products.index')->withErrors($mess);
 
             }
-        } else if(request('sortBy')) {
+        } else if (request('sortBy')) {
             try {
-                switch(request('sortBy')) {
-                    case 'name' :{
-                        $products = Product::orderBy('name')
-                    ->paginate(config('const.product_paging'));
-                    $products->withPath('products?sortBy=name');
-                    break;
-                    }
-                    case 'endDate' :{
-                        $products = Product::orderBy('end_Date')
-                        ->join('auctions','products.id' ,'=','auctions.id')
-                    ->paginate(config('const.product_paging'));
-                    $products->withPath('products?sortBy=endDate');
-                    break;
-                    }
-                    case 'startDate' :{
-                        $products = Product::orderBy('start_Date')
-                        ->join('auctions','products.id' ,'=','auctions.id')
-                    ->paginate(config('const.product_paging'));
-                    $products->withPath('products?sortBy=startDate');
-                        
-                    break;
-                    }
-                    
-                    
-                    default: {
-                        dd($products);
-                        $products = Product::paginate(config('const.product_paging'));
-                    }
+                switch (request('sortBy')) {
+                    case 'name':{
+                            $products = Product::orderBy('name')
+                                ->paginate(config('const.product_paging'));
+                            $products->withPath('products?sortBy=name');
+                            break;
+                        }
+                    case 'endDate':{
+                            $products = Product::orderBy('end_Date')
+                                ->join('auctions', 'products.id', '=', 'auctions.id')
+                                ->paginate(config('const.product_paging'));
+                            $products->withPath('products?sortBy=endDate');
+                            break;
+                        }
+                    case 'startDate':{
+                            $products = Product::orderBy('start_Date')
+                                ->join('auctions', 'products.id', '=', 'auctions.id')
+                                ->paginate(config('const.product_paging'));
+                            $products->withPath('products?sortBy=startDate');
+
+                            break;
+                        }
+
+                    default:{
+                            dd($products);
+                            $products = Product::paginate(config('const.product_paging'));
+                        }
                 }
             } catch (Exception $e) {
                 $mess = $e->getMessage();
                 return redirect()->route('products.index')->withErrors($mess);
 
             }
-        } 
-        else {
+        } else {
             $products = Product::paginate(config('const.product_paging'));
         }
-        
-        
+
         return view('product.index', ['products' => $products, 'warning' => $warning]);
 
     }
@@ -190,14 +194,17 @@ class ProductController extends Controller
         $product = $this->productModel->find($id);
 
         $auction = $product->auction;
-
+        
+        $bidder = Product::find($id)->hasBidder();
+        $highestBid = $auction->auctionDetail->bid_price;
+        
         $startDate = Carbon::parse($auction->start_date);
 
         $endDate = $auction->end_date ? Carbon::parse($auction->end_date) : '';
 
         $status = $product->status;
         $isBidding = $product->is_bidding;
-        $bidder = Product::find($id)->hasbidder();
+        
 
         return view('product.show', [
             'product' => $product,
@@ -206,7 +213,7 @@ class ProductController extends Controller
             'isBidding' => $isBidding,
             'startDate' => $startDate,
             'endDate' => $endDate,
-
+            'highestBid' => $highestBid,
         ]);
     }
 

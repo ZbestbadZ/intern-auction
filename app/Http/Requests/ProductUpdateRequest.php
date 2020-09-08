@@ -15,7 +15,17 @@ class ProductUpdateRequest extends FormRequest
     {
         return true;
     }
+    protected function prepareForValidation()
+    {
 
+        $is_bidding = isset($this['is_bidding']);
+        $end_date = str_replace('T', ' ', $this['end_date']);
+        
+        $this->merge([
+            'is_bidding' => $is_bidding,
+            'end_date' => $end_date,
+        ]);
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,8 +37,17 @@ class ProductUpdateRequest extends FormRequest
             'name' => 'required|max:40',
             'description'=>'required|max:255',
             'image.*'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'minimum_bid' =>'numeric',
-            'start_price' => 'numeric',
+            'minimum_bid' =>'integer',
+            'start_price' => 'integer',
+            'end_date' => 'required|date|after:now',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'end_date.required' =>'Date is require',
+            'end_date.date' => 'End must be date',
+            'end_date.after' => 'Invalid Date',
         ];
     }
 }
