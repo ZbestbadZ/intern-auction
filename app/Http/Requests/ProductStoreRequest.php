@@ -27,8 +27,8 @@ class ProductStoreRequest extends FormRequest
             'name' => 'required|max:40',
             'description'=>'required|max:255',
             'image.*'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'minimum_bid' =>'numeric',
-            'start_price' => 'numeric',
+            'minimum_bid' =>'integer',
+            'start_price' => 'integer',
         ];
     }
 }

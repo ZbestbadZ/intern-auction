@@ -28,32 +28,32 @@
                     <p class="number">Description: {{ $product->description }}</p>
                 </div>
                 <div class="row">
-                    <p class="number">is on Auction: {{ $product->is_bidding }}</p>
+                    <p class="number">Public: {{ $product->is_bidding ?'Open':'Non-public' }}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Giá gốc: {{ $product->start_price }}</p>
+                    <p class="number">Start Price: {{ number_format($product->start_price) }}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Status: {{ $product->status }}</p>
+                    <p class="number">Status: {{ $product->status ? '': 'Opening auction' }}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Bước giá: {{ $product->minimum_bid }}</p>
+                    <p class="number">Step Price: {{ (int)$product->minimum_bid }}</p>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <div class="row">
-                    <p class="number">Giá cao nhất hiện tại:
-                        {{ $auctionDetail->bid_price ?? $product->start_price }}</p>
+                    <p class="number">The current highest price:
+                        {{ number_format($auctionDetail->bid_price ?? $product->start_price) }}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Thời gian đấu giá: {{ $auctionDetail->bid_time ?? 'Chua co nguoi dau gia' }}
+                    <p class="number">Time auction: {{ $auctionDetail->bid_time ?? 'N/A' }}
                     </p>
                 </div>
                 <div class="row">
-                    <p class="number">Ngày mở đấu giá: {{ $auction->start_date }}</p>
+                    <p class="number">Opening auction date: {{ $auction->start_date }}</p>
                 </div>
                 <div class="row">
-                    <p class="number">Hạn chót ra giá: {{ $auction->end_date }}</p>
+                    <p class="number">End date auction: {{ $auction->end_date }}</p>
                 </div>
 
                 <div class="row">
@@ -62,14 +62,14 @@
                         <form method="post" enctype="multipart/form-data" action="{{ $product->id }}">
                             @csrf
                             @method('PATCH')
-                            <input type="text" name="bid_price" placeholder="Nhập giá"><br><br>
+                            <input type="text" name="bid_price" placeholder="Insert price"><br><br>
                             <!-- @error('bid_price')
 
                             <strong>{{ $message }}</strong><br>
 
                             @enderror -->
                             
-                            <button class="btn btn-primary" type="submit">Đấu giá sản phẩm</button>
+                            <button class="btn btn-primary" type="submit">Start Auction</button>
                         </form>
                     @endif
                 </div>

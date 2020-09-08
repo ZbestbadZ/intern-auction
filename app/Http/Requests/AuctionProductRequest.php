@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\checkAuctionPrice;
 
 class AuctionProductRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class AuctionProductRequest extends FormRequest
     public function rules()
     {     
         return [
-            'bid_price' => 'required|numeric',
+            'bid_price' => ['required','integer', new checkAuctionPrice()],
         ];
     }
     
