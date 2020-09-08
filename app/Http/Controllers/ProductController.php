@@ -7,8 +7,10 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Exception;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
+
 
 class ProductController extends Controller
 {
@@ -16,6 +18,7 @@ class ProductController extends Controller
 
     public function __construct(Product $model)
     {
+        ProductUtilities::checkProducts();
         $this->productModel = $model;
     }
 
@@ -30,17 +33,20 @@ class ProductController extends Controller
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
 
             $product = Product::create($data);
+            $files = $request->file('image');
 
-            $image = request()->file(['image']);
+            if ($request->hasFile('image')) {
+                
+                foreach ($files as $file) {
+                    $imgPath = $file->store('uploads/' . $product->id, 'public');
 
-            if (isset($image)) {
-                $imgPath = $image->store('uploads/' . $product->id, 'public');
-
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'image_url' => $imgPath,
-                    'name' => $image->getClientOriginalName(),
-                ]);
+                    $image =ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_url' => $imgPath,
+                        'name' => $file->getClientOriginalName(),
+                    ]);
+                   
+                }
             }
 
         } catch (Exception $e) {
@@ -52,15 +58,15 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = $this->productModel->find($id);
 
-        $hasBidder = $product->auction->auctionDetail->user_id;
-        if ($hasBidder) {
+        $product = $this->productModel->find($id);
+        if ($product->hasBidder()) {
             $mess = "This Item has bidders in process can't be alter";
             return redirect()->route('products.index')->withErrors($mess);
         }
+        $images = $product->images;
 
-        return view('product.edit', compact('product'));
+        return view('product.edit', compact('product', 'images'));
     }
 
     public function update(ProductUpdateRequest $request, $id)
@@ -72,17 +78,23 @@ class ProductController extends Controller
                 $data['is_bidding'] = false;
             }
 
-            $product = Product::find($id)->update($data);
+            $product = Product::find($id);
+            $product->update($data);
 
-            $image = request()->file(['image']);
-            if (isset($image)) {
-                $imgPath = $image->store('uploads/' . $product->id, 'public');
+            $files = $request->file('image');
 
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'image_url' => $imgPath,
-                    'name' => $image->getClientOriginalName(),
-                ]);
+            if ($request->hasFile('image')) {
+                
+                foreach ($files as $file) {
+                    $imgPath = $file->store('uploads/' . $product->id, 'public');
+
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image_url' => $imgPath,
+                        'name' => $file->getClientOriginalName(),
+                    ]);
+
+                }
             }
 
         } catch (Exception $e) {
@@ -90,7 +102,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->withErrors($mess)->withInput();
 
         }
-        return redirect()->route('products.index');
+        return redirect()->back()->withInput();
     }
 
     public function destroy($id)
@@ -98,8 +110,7 @@ class ProductController extends Controller
 
         $product = $this->productModel->find($id);
 
-        $hasBidder = $product->auction->auctionDetail->user_id;
-        if ($hasBidder) {
+        if ($product->hasBidder()) {
             $mess = "This Item has bidders in process can't be alter";
             return redirect()->route('products.index')->withErrors($mess);
         }
@@ -108,11 +119,63 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $warning = request(['warning']);
+        $products = null;
+        if (request(['search'])) {
+            try {
+                $search = request('search');
+                $products = Product::where('name', 'like', '%' . $search . '%')
+                    ->paginate(config('const.product_paging'));
+                    
+            } catch (Exception $e) {
+                $mess = $e->getMessage();
+                return redirect()->route('products.index')->withErrors($mess);
 
-        $products = Product::paginate(config('const.product_paging'));
+            }
+        } else if(request('sortBy')) {
+            try {
+                switch(request('sortBy')) {
+                    case 'name' :{
+                        $products = Product::orderBy('name')
+                    ->paginate(config('const.product_paging'));
+                    $products->withPath('products?sortBy=name');
+                    break;
+                    }
+                    case 'endDate' :{
+                        $products = Product::orderBy('end_Date')
+                        ->join('auctions','products.id' ,'=','auctions.id')
+                    ->paginate(config('const.product_paging'));
+                    $products->withPath('products?sortBy=endDate');
+                    break;
+                    }
+                    case 'startDate' :{
+                        $products = Product::orderBy('start_Date')
+                        ->join('auctions','products.id' ,'=','auctions.id')
+                    ->paginate(config('const.product_paging'));
+                    $products->withPath('products?sortBy=startDate');
+                        
+                    break;
+                    }
+                    
+                    
+                    default: {
+                        dd($products);
+                        $products = Product::paginate(config('const.product_paging'));
+                    }
+                }
+            } catch (Exception $e) {
+                $mess = $e->getMessage();
+                return redirect()->route('products.index')->withErrors($mess);
+
+            }
+        } 
+        else {
+            $products = Product::paginate(config('const.product_paging'));
+        }
+        
+        
         return view('product.index', ['products' => $products, 'warning' => $warning]);
 
     }
@@ -123,27 +186,22 @@ class ProductController extends Controller
 
         $auction = $product->auction;
 
-        $startDate = $auction->start_date;
-        $formatedStartDate = date('Y-m-d', strtotime($startDate));
-        $formatedStartTime = date('H:i:s', strtotime($startDate));
+        $startDate = Carbon::parse($auction->start_date);
 
-        $endDate = Carbon::parse($auction->end_date);
-        $formatedEndDate = date('Y-m-d', strtotime($endDate));
-        $formatedEndTime = date('H:i:s', strtotime($endDate));
+        $endDate = $auction->end_date ? Carbon::parse($auction->end_date) : '';
 
         $status = $product->status;
         $isBidding = $product->is_bidding;
-        $hasBidder = $auction->auctionDetail->user_id;
+        $bidder = Product::find($id)->hasbidder();
 
         return view('product.show', [
             'product' => $product,
             'status' => $status,
-            'hasBidder' => $hasBidder,
+            'bidder' => $bidder,
             'isBidding' => $isBidding,
-            'formatedStartDate' => $formatedStartDate,
-            'formatedStartTime' => $formatedStartTime,
-            'formatedEndDate' => $endDate,
-            'formatedEndTime' => $formatedEndTime,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+
         ]);
     }
 

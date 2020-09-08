@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Auction;
 
 class AuctionUpdateRequest extends FormRequest
 {
@@ -14,19 +13,18 @@ class AuctionUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        
 
         return true;
     }
     protected function prepareForValidation()
     {
 
-        $start_date = str_replace('T',' ', $this['start_date']);
-        $end_date = str_replace('T',' ', $this['end_date']);
+        $start_date = str_replace('T', ' ', $this['start_date']);
+        $end_date = str_replace('T', ' ', $this['end_date']);
 
         $this->merge([
-           'start_date' => $start_date,
-           'end_date' => $end_date, 
+            'start_date' => $start_date,
+            'end_date' => $end_date,
         ]);
     }
     /**
@@ -38,7 +36,15 @@ class AuctionUpdateRequest extends FormRequest
     {
 
         return [
-            'end_date' => 'date|after:now',
+            'end_date' => 'required|date|after:now',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'end_date.required' =>'Date is require',
+            'end_date.date' => 'End must be date',
+            'end_date.after' => 'Invalid Date',
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,30 +13,13 @@ class AuctionSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('auctions')->insert([
+        for ($x = 1; $x <= 6; $x+=1) {
+            DB::table('auctions')->insert([
                     
-            'product_id' => '1',
-            'start_date' => '2020-9-2 9:15:44',
-            'end_date'   => '2020-9-2 22:23:44'
-
-        ]);
-
-        DB::table('auctions')->insert([
-                    
-            'product_id' => '2',
-            'start_date' => '2020-9-2 9:15:44',
-            'end_date'   => '2020-9-2 22:23:44'
-
-        ]);
-
-        DB::table('auctions')->insert([
-                    
-            'product_id' => '3',
-            'start_date' => '2020-9-2 9:15:44',
-            'end_date'   => '2020-9-2 22:23:44'
-
-        ]);
-
-       
+                'product_id' => $x,
+                'start_date' => Carbon::now(),
+                'end_date' => Carbon::tomorrow(),    
+            ]);
+            }
     }
 }

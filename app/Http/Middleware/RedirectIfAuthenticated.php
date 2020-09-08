@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
             if (Auth::user()->role == 1) {
                 return redirect('admin');
             }
-            return redirect('user');
+            return redirect('user/list_product');
         }
 
         return $next($request);

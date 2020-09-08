@@ -1,4 +1,4 @@
 <?php
 return [
-    'product_paging' => '2',
+    'product_paging' => '10',
 ];

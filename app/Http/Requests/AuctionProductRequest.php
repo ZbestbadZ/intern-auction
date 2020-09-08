@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductStoreRequest extends FormRequest
+class AuctionProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,10 @@ class ProductStoreRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {     
         return [
-            'name' => 'required|max:40',
-            'description'=>'required|max:255',
-            'image.*'=> 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'minimum_bid' =>'numeric',
-            'start_price' => 'numeric',
+            'bid_price' => 'required|numeric',
         ];
     }
+    
 }

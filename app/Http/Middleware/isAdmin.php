@@ -21,7 +21,7 @@ class isAdmin
             {
                 return $next($request);
             }
-            return redirect('user');
+            return redirect()->route('user.list_product');
         }
         return redirect('/');
         
