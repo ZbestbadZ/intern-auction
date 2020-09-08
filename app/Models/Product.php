@@ -19,6 +19,11 @@ class Product extends Model
              Auction::create(['product_id'=>$item->id,]);
         });
     }
+    public function delete()
+    {
+        parent::delete();
+        
+    }
 
     public function auction(){
 

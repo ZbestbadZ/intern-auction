@@ -74,7 +74,27 @@
                                 <form method="POST" action="{{ url("/products/{$item->id}") }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-warning" type="submit">Delete</button>
+                                    <button class="btn btn-warning" type="button" data-toggle="modal"
+                                        data-target="#exampleModalCenter">Delete</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Caution</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to remove {{$item->name}} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </td>
