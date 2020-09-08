@@ -155,7 +155,7 @@ class ProductController extends Controller
                         ->join('auctions','products.id' ,'=','auctions.id')
                     ->paginate(config('const.product_paging'));
                     $products->withPath('products?sortBy=startDate');
-                        dd($products->get(1));
+                        
                     break;
                     }
                     
