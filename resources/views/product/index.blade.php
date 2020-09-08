@@ -47,7 +47,7 @@
                             @else
 
                                 <a href="products/{{ $item->id }}">
-                                <img class="img-fluid" src="{{  URL::asset('storage/' . $item->images['0']->image_url) }}" alt="{{URL::asset('/img/defaultProductImage.jpg')}}">
+                                <img class="img-fluid" src="{{  asset('storage/' . $item->images['0']->image_url) }}" alt="{{asset('/img/defaultProductImage.jpg')}}">
                                 </a>
                             @endif
                             <a href="products/{{ $item->id }}">{{ $item->name }}</a>

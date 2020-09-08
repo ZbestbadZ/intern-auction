@@ -71,7 +71,7 @@
                                 <tr>
                                     <td>
                                         <div class="w-50">
-                                            <img class="img-fluid" src="{{ URL::asset('storage/' . $item->image_url) }}" alt="">
+                                            <img class="img-fluid" src="{{ :asset('storage/' . $item->image_url) }}" alt="">
                                         </div>
                                     </td>
                                     <td>
@@ -81,7 +81,7 @@
                                     </td>
                                     <td>
                                         <div>
-                                            {{number_format(filesize(('storage/' . $item->image_url))) .' Bytes'}}
+                                            {{}}
                                         </div>
                                     </td>
                                     <td>
