@@ -35,6 +35,9 @@ services:
     volumes:
       - .:/var/www/html
       - auction-test-node-modules:/var/www/html/node_modules
+      - type: bind
+        source: /auction-kyoubai/public/storage/uploads/
+        target: /var/www/html/public/storage/uploads/
     networks:
       backend:
 
