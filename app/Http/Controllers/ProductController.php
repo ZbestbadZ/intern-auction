@@ -144,21 +144,24 @@ class ProductController extends Controller
                     break;
                     }
                     case 'endDate' :{
-                        $products = Product::orderBy('endDate')
+                        $products = Product::orderBy('end_Date')
+                        ->join('auctions','products.id' ,'=','auctions.id')
                     ->paginate(config('const.product_paging'));
                     $products->withPath('products?sortBy=endDate');
                     break;
                     }
                     case 'startDate' :{
-                        $products = Product::orderBy('startDate')
+                        $products = Product::orderBy('start_Date')
+                        ->join('auctions','products.id' ,'=','auctions.id')
                     ->paginate(config('const.product_paging'));
                     $products->withPath('products?sortBy=startDate');
-                   
+                        dd($products->get(1));
                     break;
                     }
                     
                     
                     default: {
+                        dd($products);
                         $products = Product::paginate(config('const.product_paging'));
                     }
                 }
