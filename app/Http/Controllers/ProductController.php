@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Carbon;
+
 
 class ProductController extends Controller
 {
@@ -138,19 +138,19 @@ class ProductController extends Controller
             try {
                 switch(request('sortBy')) {
                     case 'name' :{
-                        $products = Product::orderBy(['name',])
+                        $products = Product::orderBy('name')
                     ->paginate(config('const.product_paging'));
                     $products->withPath('products?sortBy=name');
                     break;
                     }
                     case 'endDate' :{
-                        $products = Product::orderBy('endDate',)
+                        $products = Product::orderBy('endDate')
                     ->paginate(config('const.product_paging'));
                     $products->withPath('products?sortBy=endDate');
                     break;
                     }
                     case 'startDate' :{
-                        $products = Product::orderBy('startDate',)
+                        $products = Product::orderBy('startDate')
                     ->paginate(config('const.product_paging'));
                     $products->withPath('products?sortBy=startDate');
                    
