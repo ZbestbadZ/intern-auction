@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\AuctionDetail;
+use App\Models\AuctionsDetail;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

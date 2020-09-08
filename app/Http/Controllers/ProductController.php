@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Carbon;
 
 class ProductController extends Controller
 {
@@ -182,6 +183,7 @@ class ProductController extends Controller
 
         $auction = $product->auction;
 
+<<<<<<< HEAD
         $startDate = Carbon::parse($auction->start_date);
 
         $endDate = $auction->end_date ? Carbon::parse($auction->end_date) : '';
@@ -189,15 +191,37 @@ class ProductController extends Controller
         $status = $product->status;
         $isBidding = $product->is_bidding;
         $bidder = Product::find($id)->hasbidder();
+=======
+        $startDate = $auction->start_date;
+        $formatedStartDate = date('Y-m-d', strtotime($startDate));
+        $formatedStartTime = date('H:i:s', strtotime($startDate));
+
+        $endDate = Carbon::parse($auction->end_date);
+        $formatedEndDate = date('Y-m-d', strtotime($endDate));
+        $formatedEndTime = date('H:i:s', strtotime($endDate));
+
+        $status = $product->status;
+        $isBidding = $product->is_bidding;
+        $hasBidder = $auction->auctionDetail->user_id;
+>>>>>>> 8c1316bf3cb2ea4cd07cee98521bebe45d77d634
 
         return view('product.show', [
             'product' => $product,
             'status' => $status,
+<<<<<<< HEAD
             'bidder' => $bidder,
             'isBidding' => $isBidding,
             'startDate' => $startDate,
             'endDate' => $endDate,
 
+=======
+            'hasBidder' => $hasBidder,
+            'isBidding' => $isBidding,
+            'formatedStartDate' => $formatedStartDate,
+            'formatedStartTime' => $formatedStartTime,
+            'formatedEndDate' => $endDate,
+            'formatedEndTime' => $formatedEndTime,
+>>>>>>> 8c1316bf3cb2ea4cd07cee98521bebe45d77d634
         ]);
     }
 
