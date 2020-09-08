@@ -36,16 +36,16 @@ class ProductController extends Controller
             $files = $request->file('image');
 
             if ($request->hasFile('image')) {
-
+                
                 foreach ($files as $file) {
                     $imgPath = $file->store('uploads/' . $product->id, 'public');
 
-                    ProductImage::create([
+                    $image =ProductImage::create([
                         'product_id' => $product->id,
                         'image_url' => $imgPath,
                         'name' => $file->getClientOriginalName(),
                     ]);
-
+                   
                 }
             }
 
@@ -84,7 +84,7 @@ class ProductController extends Controller
             $files = $request->file('image');
 
             if ($request->hasFile('image')) {
-
+                
                 foreach ($files as $file) {
                     $imgPath = $file->store('uploads/' . $product->id, 'public');
 

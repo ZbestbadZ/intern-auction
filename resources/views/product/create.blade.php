@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label for="startprice">Start price: </label>
                         <input class="form-control" type="text" name="start_price" id="startprice" value="0">
-                        @error('startprice')
+                        @error('start_price')
 
                         <strong>{{ $message }}</strong>
 
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <label for="minimumbid">Minimum Bid: </label>
                         <input class="form-control" type="text" name="minimum_bid" id="minimumbid" value="0">
-                        @error('minimumbid')
+                        @error('minimum_bid')
 
                         <strong>{{ $message }}</strong>
 
