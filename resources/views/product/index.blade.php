@@ -27,7 +27,7 @@
                 </form>
             </div>
             @if ($errors->any())
-                <div class="row" style="">
+                <div class="row text-danger" style="">
                     <div class="alert alert-danger text-center">{{ $errors->first() }}</div>
                 </div>
             @endif
@@ -64,7 +64,8 @@
                         <td><a href="products/{{ $item->id }}">{{ $item->name }}</a></td>
                         
                         <td>
-                            <p>{{ $item->hasBidder() ? 'Current highest price: ' . $item->getHighestBidPrice() : 'Doesnt have bidder' }}
+                            <p>
+                                {{ $item->hasBidder() ? 'Current highest price: ' . number_format($item->getHighestBidPrice()) : 'Doesnt have bidder' }}
                             </p>
                         </td>
 

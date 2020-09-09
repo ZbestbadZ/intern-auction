@@ -11,7 +11,7 @@
                         <input class="form-control" type="text" name="name" id="name" value="">
                         @error('name')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -21,7 +21,7 @@
                             </textarea>
                         @error('description')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -31,7 +31,7 @@
                         <input class="form-control" type="text" name="start_price" id="startprice" value="0">
                         @error('start_price')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -41,7 +41,7 @@
                         <input class="form-control" type="text" name="minimum_bid" id="minimumbid" value="0">
                         @error('minimum_bid')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -50,17 +50,17 @@
                         <input type="datetime-local" name="end_date" id="end_date"
                             value=""><br>
                             @error ('end_date')
-                            <strong>{{ $message }}</strong>
+                            <div class="text-danger" ><strong>{{ $message }}</strong></div>
                             @enderror
                     </div>
                     <div class="form-group">
                         <label for="ispublic">On auction: </label>
-                        <input onclick="return function(){if(document.getElementById('ispublic').getAttribute('checked')) }" type="checkbox" name="is_bidding" id="ispublic">
+                        <input  type="checkbox" name="is_bidding" id="ispublic">
                     </div>
                     <div class="form-group">
                         <input type="file" class="form-control-file" id="image" name="image[]" multiple>
                         @error('image')
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
                         @enderror
                     </div>
                     <button class="btn btn-primary" type="submit" name="create">Create</button>

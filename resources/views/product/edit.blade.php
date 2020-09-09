@@ -13,7 +13,7 @@
                         <input class="form-control" type="text" name="name" id="name" value="{{ $product->name }}">
                         @error('name')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -25,7 +25,7 @@
 
                         @error('description')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -42,7 +42,7 @@
 
                         @error('start_price')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -54,7 +54,7 @@
                             value="{{ $product->minimum_bid }}">
                         @error('minimum_bid')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -69,7 +69,7 @@
                                 <input type="datetime-local" name="end_date" id="end_date"
                                     value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
                                 @error ('end_date')
-                                <strong>{{ $message }}</strong>
+                                <div class="text-danger" ><strong>{{ $message }}</strong></div>
                                 @enderror
                             </div>
                             <label for="ispublic">On auction: </label>
@@ -119,7 +119,7 @@
                         <label for="image">Add Images</label>
                         <input type="file" class="form-control-file" id="image" name="image[]" multiple>
                         @error('image')
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
                         @enderror
                     </div>
                     <button class="btn btn-primary" type="submit" name="edit">Save</button>

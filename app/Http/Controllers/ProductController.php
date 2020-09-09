@@ -65,32 +65,33 @@ class ProductController extends Controller
             $product = $this->productModel->find($id);
 
             if ($request->has('restart')) {
-                $data = $product->attributesToArray();
-                $data['status'] = false;
-                $product->update($data);
+                $product->auction->update(['start_date'=>Carbon::now(),'end_date' =>Carbon::now()->addDay()]);
+                $product->update(['status' => false ]);
             }
 
             $hasBidder = $product->hasBidder();
             $images = $product->images;
             $endDate = Carbon::parse($product->auction->end_date);
             $startDate = Carbon::parse($product->auction->start_date);
-
+            
+            return view('product.edit', compact('product', 'images', 'hasBidder', 'endDate', 'startDate', ));
         } catch (Exception $e) {
             $mess = $e->getMessage();
             return redirect()->route('products.index')->withErrors($mess)->withInput();
         }
 
-        return view('product.edit', compact('product', 'images', 'hasBidder', 'endDate', 'startDate', ));
+        
     }
 
     public function update(ProductUpdateRequest $request, $id)
     {
         try {
+            
             $product = Product::find($id);
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
 
             $endDate = $request->end_date;
-
+            
             $files = $request->file('image');
 
             if ($data['is_bidding'] && $product->status) {
@@ -120,7 +121,8 @@ class ProductController extends Controller
             return redirect()->route('products.index')->withErrors($mess)->withInput();
 
         }
-        return redirect()->back()->withInput();
+        
+        return redirect()->route('products.edit', ['id'=>$product->id]);
     }
 
     public function destroy($id)
