@@ -9,7 +9,8 @@ class ProductUtilities {
     public static function checkProducts()
     {     
         Product::join('auctions', 'products.id', '=', 'auctions.product_id')
-                ->whereDate('end_date', '<=', Carbon::now())
+                ->whereDate('end_date', '=', Carbon::now())
+                ->whereTime('end_date', '<=', Carbon::now())
                 ->select('*')
                 ->update([
                     'is_bidding' => '0',

@@ -29,6 +29,7 @@ class checkAuctionPrice implements Rule
     public function passes($attribute, $value)
     {
         return AuctionsDetail::where('bid_price', '>=', $value)->count() == 0;
+    
     }
 
     /**

@@ -76,5 +76,15 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        function confirmDelete (product){
+    
+            if (window.confirm(product)) {
+                return true;
+            }
+            return false;
+        }
+        $("div.alert").delay(1000).slideUp();
+    </script>
 </body>
 </html>

@@ -61,7 +61,7 @@
                             <form method="POST" action="{{ url("/products/{$item->id}") }}">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-warning" type="submit">Delete</button>
+                                <button class="btn btn-warning" type="submit" onclick="return confirmDelete('Do you want to delete?')">Delete</button>
                             </form>
                         </div>
 
