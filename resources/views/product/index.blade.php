@@ -46,7 +46,7 @@
                             <div class="col-4">
                                 @if (count($item->images) === 0)
                                     <a href="products/{{ $item->id }}">
-                                        <img class="img-fluid" style="height: 150px"
+                                        <img class="img-fluid" 
                                             src="{{ URL::asset('/img/defaultProductImage.jpg') }}" alt="">
                                     </a>
 
@@ -60,7 +60,9 @@
 
                             </div>
                         </td>
+                        
                         <td><a href="products/{{ $item->id }}">{{ $item->name }}</a></td>
+                        
                         <td>
                             <p>{{ $item->hasBidder() ? 'Current highest price: ' . $item->getHighestBidPrice() : 'Doesnt have bidder' }}
                             </p>
@@ -71,10 +73,32 @@
                                 <form method="GET" action="{{ url("/products/{$item->id}/edit") }}">
                                     <button class="btn btn-primary" type="submit">Edit</button>
                                 </form>
+
                                 <form method="POST" action="{{ url("/products/{$item->id}") }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-warning" type="submit">Delete</button>
+                                    <button class="btn btn-warning" type="button" data-toggle="modal"
+                                        data-target="{{'#'.'moral'.$item->id}}">Delete</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="{{'moral'.$item->id}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Warning</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to remove {{$item->name}} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </form>
                             </div>
                         </td>

@@ -77,7 +77,6 @@
                         @endif
                     </div>
                     <div class="form-group">
-
                         @if (count($images) != 0)
                             <table class="table">
                                 <tr>
@@ -105,13 +104,13 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <form action=""></form>
+                                            <form></form>
                                             <form method="POST" action="{{ url("/productImage/{$item->id}") }}">
                                                 @csrf
                                                 @method('DELETE')
-
                                                 <button class="btn btn-primary" type="submit">Delete</button>
                                             </form>
+
                                         </td>
                                     </tr>
                                 @endforeach

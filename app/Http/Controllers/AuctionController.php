@@ -22,8 +22,8 @@ class AuctionController extends Controller
             $model = $this->auctionModel->find($request->id);
             $product = $model->product;
             $data = $request->only(['end_date']);
-            $mode = $request->only('mode');
-
+            $mode = $request->input('mode');
+            
             if ($data['end_date'] !== $model->end_date) {
                 $data['start_date'] = Carbon::now();
             }

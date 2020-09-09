@@ -11,7 +11,7 @@ class ProductImageController extends Controller
         try {
             $productImage = ProductImage::find($id);
             $productImage->delete();
-            
+
         } catch (Exception $e) {
             return redirect()->route('products.index')->withErrors($e->getMessage());
         }
