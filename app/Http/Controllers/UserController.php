@@ -58,7 +58,7 @@ class UserController extends Controller
             $auctionDetail->save();
 
             return redirect()->back();
-
+            
         } catch (Exception $e) {
             $mess = $e->getMessage();
             return redirect()->route('user.list_product', ['warning' => $mess]);

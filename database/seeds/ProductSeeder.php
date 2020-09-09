@@ -22,8 +22,8 @@ class ProductSeeder extends Seeder
                 'status' => '0',
                 'is_bidding' => '1',
                 'description' => $faker->text(),
-                'start_price' => $faker->randomFloat(2,500,1000),
-                'minimum_bid' => $faker->randomFloat(2,40,100),
+                'start_price' => $faker->numberBetween(500,1000),
+                'minimum_bid' => $faker->numberBetween(40,100),
             ]);
             $product->auction->update(['end_date'=>Carbon::now()]);
         }
@@ -33,8 +33,8 @@ class ProductSeeder extends Seeder
                 'status' => '0',
                 'is_bidding' => '1',
                 'description' => $faker->text(),
-                'start_price' => $faker->randomFloat(2,500,1000),
-                'minimum_bid' => $faker->randomFloat(2,40,100),
+                'start_price' => $faker->numberBetween(500,1000),
+                'minimum_bid' => $faker->numberBetween(40,100),
             ]);
             $product->auction->update(['end_date'=>Carbon::now()->addDay()]);
         }
@@ -47,8 +47,8 @@ class ProductSeeder extends Seeder
                 'status' => '1',
                 'is_bidding' => '0',
                 'description' => $faker->text(),
-                'start_price' => $faker->randomFloat(2,500,1000),
-                'minimum_bid' => $faker->randomFloat(2,40,100),
+                'start_price' => $faker->numberBetween(500,1000),
+                'minimum_bid' => $faker->numberBetween(40,100),
     
             ]);
             Product::create([
@@ -57,8 +57,8 @@ class ProductSeeder extends Seeder
                 'status' => '0',
                 'is_bidding' => '0',
                 'description' => $faker->text(),
-                'start_price' => $faker->randomFloat(2,500,1000),
-                'minimum_bid' => $faker->randomFloat(2,40,100),
+                'start_price' => $faker->numberBetween(500,1000),
+                'minimum_bid' => $faker->numberBetween(40,100),
     
             ]);
           }

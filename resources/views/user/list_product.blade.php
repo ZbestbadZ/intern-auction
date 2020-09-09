@@ -21,8 +21,8 @@
                         <a href="products/{{$p->id}}">
                             {{$p->name}}
                         </a>
-                        <p class="number">Giá hiện tại: {{number_format($p->auction->auctionDetail->bid_price??$p->start_price)}}</p>
-                        <p class="number">Bước giá: {{$p->minimum_bid}}</p> 
+                        <p class="number">The current price: {{number_format($p->auction->auctionDetail->bid_price??$p->start_price)}}</p>
+                        <p class="number">Step Price: {{(int)$p->minimum_bid}}</p> 
                     </div>
                 @endforeach
             </div>
