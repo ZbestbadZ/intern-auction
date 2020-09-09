@@ -172,7 +172,7 @@ class ProductController extends Controller
                         }
 
                     default:{
-                            dd($products);
+                            
                             $products = Product::paginate(config('const.product_paging'));
                         }
                 }
