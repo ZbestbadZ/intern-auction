@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\checkAuctionPrice;
 
@@ -23,9 +24,17 @@ class AuctionProductRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {     
+    {   
+        $oldBidPice = Product::find($this->id)->auction->auctionDetail->bid_price?Product::find($this->id)->auction->auctionDetail->bid_price:Product::find($this->id)->start_price;
+        
         return [
-            'bid_price' => ['required','integer', new checkAuctionPrice()],
+            'bid_price' => ['gt:'.$oldBidPice,'required','integer', new checkAuctionPrice($this->id)],
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'bid_price.gt' =>'Giá tiền phai cao hơn',            
         ];
     }
     

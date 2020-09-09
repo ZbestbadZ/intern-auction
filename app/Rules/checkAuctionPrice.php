@@ -14,9 +14,13 @@ class checkAuctionPrice implements Rule
      *
      * @return void
      */
-    public function __construct()
+    protected $auctionDetailModel;
+    protected $productModel;
+    public function __construct($productId)
     {
-        //
+        $this->productModel = Product::find($productId);
+        $this->auctionDetailModel = $this->productModel->auction->auctionDetail;
+        
     }
 
     /**
@@ -28,7 +32,11 @@ class checkAuctionPrice implements Rule
      */
     public function passes($attribute, $value)
     {
-        return AuctionsDetail::where('bid_price', '>=', $value)->count() == 0;
+        if($this->productModel->minimum_bid==0)return true;
+        $oldPrice = $this->auctionDetailModel->bid_pice?$this->auctionDetailModel->bid_pice:$this->productModel->start_price;
+        
+        $result = is_int((int)($value -  $oldPrice)/ $this->productModel->minimum_bid)  ;
+        return $result;
     
     }
 
@@ -38,7 +46,7 @@ class checkAuctionPrice implements Rule
      * @return string
      */
     public function message()
-    {
-        return 'The auction price must be higher than the current price';
+    { $oldPrice = $this->auctionDetailModel->bid_pice?$this->auctionDetailModel->bid_pice:$this->productModel->start_price;
+        return 'Giá tiền phải chia hết cho bước giá ( giá gần nhất '.number_format($this->productModel->minimum_bid + $oldPrice).')';
     }
 }
