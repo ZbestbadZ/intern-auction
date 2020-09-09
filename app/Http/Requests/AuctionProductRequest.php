@@ -27,6 +27,7 @@ class AuctionProductRequest extends FormRequest
     {   
         $oldBidPice = Product::find($this->id)->auction->auctionDetail->bid_price?Product::find($this->id)->auction->auctionDetail->bid_price:Product::find($this->id)->start_price;
         
+        
         return [
             'bid_price' => ['gt:'.$oldBidPice,'required','integer', new checkAuctionPrice($this->id)],
         ];
@@ -34,7 +35,7 @@ class AuctionProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'bid_price.gt' =>'Giá tiền phai cao hơn',            
+            'bid_price.gt' =>'Giá tiền phải cao hơn giá hiện tại',            
         ];
     }
     

@@ -33,7 +33,7 @@ class checkAuctionPrice implements Rule
     public function passes($attribute, $value)
     {
         if($this->productModel->minimum_bid==0)return true;
-        $oldPrice = $this->auctionDetailModel->bid_pice?$this->auctionDetailModel->bid_pice:$this->productModel->start_price;
+        $oldPrice = $this->auctionDetailModel->bid_price?$this->auctionDetailModel->bid_price:$this->productModel->start_price;
         
         $result = is_int((int)($value -  $oldPrice)/ $this->productModel->minimum_bid)  ;
         return $result;
@@ -46,7 +46,9 @@ class checkAuctionPrice implements Rule
      * @return string
      */
     public function message()
-    { $oldPrice = $this->auctionDetailModel->bid_pice?$this->auctionDetailModel->bid_pice:$this->productModel->start_price;
+    { 
+        $oldPrice = $this->auctionDetailModel->bid_price?$this->auctionDetailModel->bid_price:$this->productModel->start_price;
+        
         return 'Giá tiền phải chia hết cho bước giá ( giá gần nhất '.number_format($this->productModel->minimum_bid + $oldPrice).')';
     }
 }
