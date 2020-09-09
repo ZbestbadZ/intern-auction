@@ -34,7 +34,7 @@ class checkAuctionPrice implements Rule
     {
         if($this->productModel->minimum_bid==0)return true;
         $oldPrice = $this->auctionDetailModel->bid_price?$this->auctionDetailModel->bid_price:$this->productModel->start_price;
-        
+        if(!is_numeric($value))return false;
         $result = is_int((int)($value -  $oldPrice)/ $this->productModel->minimum_bid)  ;
         return $result;
     
@@ -49,6 +49,6 @@ class checkAuctionPrice implements Rule
     { 
         $oldPrice = $this->auctionDetailModel->bid_price?$this->auctionDetailModel->bid_price:$this->productModel->start_price;
         
-        return 'invalid price ( nearest acceptable price: '.number_format($this->productModel->minimum_bid + $oldPrice).')';
+        return 'invalid price ( nearest acceptable price: '.($this->productModel->minimum_bid + $oldPrice).' )';
     }
 }

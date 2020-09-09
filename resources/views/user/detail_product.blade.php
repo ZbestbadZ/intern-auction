@@ -62,14 +62,14 @@
                         <form method="post" enctype="multipart/form-data" action="{{ $product->id }}">
                             @csrf
                             @method('PATCH')
-                            <input type="text" name="bid_price" placeholder="Insert price"><br><br>
+                            <input type="number" name="bid_price" placeholder="Insert price"><br><br>
                             <!-- @error('bid_price')
 
                             <strong>{{ $message }}</strong><br>
 
                             @enderror -->
                             
-                            <button class="btn btn-primary" type="submit">Start Auction</button>
+                            <button class="btn btn-primary" type="submit">Place Bid</button>
                         </form>
                     @endif
                 </div>
