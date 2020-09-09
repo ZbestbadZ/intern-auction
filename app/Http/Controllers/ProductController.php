@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Auction;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Exception;
-use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ProductController extends Controller
 {
@@ -29,12 +30,13 @@ class ProductController extends Controller
     {
         try {
             $data = $request->only(['name', 'description', 'image', 'minimum_bid', 'start_price', 'is_bidding']);
-
+            $endDate = $request->input('end_date');
             $data['is_bidding'] = isset($request->is_bidding);
 
             $product = Product::create($data);
-            $files = $request->file('image');
+            $product->auction->update(['end_date' => $endDate,'start_date' => Carbon::now()]);
 
+            $files = $request->file('image');
             if ($request->hasFile('image')) {
 
                 foreach ($files as $file) {
@@ -56,19 +58,18 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
         try {
-            
 
             $product = $this->productModel->find($id);
-            
-            if($request->has('restart')) {
+
+            if ($request->has('restart')) {
                 $data = $product->attributesToArray();
                 $data['status'] = false;
                 $product->update($data);
             }
-            
+
             $hasBidder = $product->hasBidder();
             $images = $product->images;
             $endDate = Carbon::parse($product->auction->end_date);
@@ -79,7 +80,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->withErrors($mess)->withInput();
         }
 
-        return view('product.edit', compact('product', 'images', 'hasBidder', 'endDate', 'startDate',));
+        return view('product.edit', compact('product', 'images', 'hasBidder', 'endDate', 'startDate', ));
     }
 
     public function update(ProductUpdateRequest $request, $id)
@@ -134,7 +135,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $warning = request(['warning']);
-        $products = null;
+        $products = Product::join('auctions','products.id','=','auctions.product_id')
+            ->orderBy('start_date', 'desc')
+            ->paginate(config('const.product_paging'));
+        
         if (request(['search'])) {
             try {
                 $search = request('search');
@@ -156,14 +160,14 @@ class ProductController extends Controller
                             break;
                         }
                     case 'endDate':{
-                            $products = Product::orderBy('end_Date')
+                            $products = Product::orderBy('end_Date','asc')
                                 ->join('auctions', 'products.id', '=', 'auctions.id')
                                 ->paginate(config('const.product_paging'));
                             $products->withPath('products?sortBy=endDate');
                             break;
                         }
                     case 'startDate':{
-                            $products = Product::orderBy('start_Date')
+                            $products = Product::orderBy('start_Date','desc')
                                 ->join('auctions', 'products.id', '=', 'auctions.id')
                                 ->paginate(config('const.product_paging'));
                             $products->withPath('products?sortBy=startDate');
@@ -172,8 +176,7 @@ class ProductController extends Controller
                         }
 
                     default:{
-                            
-                            $products = Product::paginate(config('const.product_paging'));
+
                         }
                 }
             } catch (Exception $e) {
@@ -181,8 +184,6 @@ class ProductController extends Controller
                 return redirect()->route('products.index')->withErrors($mess);
 
             }
-        } else {
-            $products = Product::paginate(config('const.product_paging'));
         }
 
         return view('product.index', ['products' => $products, 'warning' => $warning]);
@@ -194,17 +195,16 @@ class ProductController extends Controller
         $product = $this->productModel->find($id);
 
         $auction = $product->auction;
-        
+
         $bidder = Product::find($id)->hasBidder();
         $highestBid = $auction->auctionDetail->bid_price;
-        
+
         $startDate = Carbon::parse($auction->start_date);
 
         $endDate = $auction->end_date ? Carbon::parse($auction->end_date) : '';
 
         $status = $product->status;
         $isBidding = $product->is_bidding;
-        
 
         return view('product.show', [
             'product' => $product,
