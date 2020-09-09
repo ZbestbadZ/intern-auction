@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="form-group col-4">
-                <form action="\products" method="GET">
+                <form action="/products" method="GET">
                     <input type="text" name="search" placeholder="Name: ex(banana)">
                     <button class="btn btn-primary">Search</button>
                 </form>
@@ -15,7 +15,7 @@
                 <a href="/products/create">Add a new product</a>
             </div>
             <div class=" col-4 ">
-                <form action="\products" method="GET">
+                <form action="/products" method="GET">
                     <label for="sortBy">Sort By:</label>
                     <select id="sortBy" name="sortBy">
                         <option value="name">Name</option>
@@ -27,7 +27,7 @@
                 </form>
             </div>
             @if ($errors->any())
-                <div class="row" style="">
+                <div class="row text-danger" style="">
                     <div class="alert alert-danger text-center">{{ $errors->first() }}</div>
                 </div>
             @endif
@@ -64,7 +64,8 @@
                         <td><a href="products/{{ $item->id }}">{{ $item->name }}</a></td>
                         
                         <td>
-                            <p>{{ $item->hasBidder() ? 'Current highest price: ' . $item->getHighestBidPrice() : 'Doesnt have bidder' }}
+                            <p>
+                                {{ $item->hasBidder() ? 'Current highest price: ' . number_format($item->getHighestBidPrice()) : 'Doesnt have bidder' }}
                             </p>
                         </td>
 

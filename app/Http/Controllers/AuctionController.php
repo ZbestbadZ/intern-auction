@@ -27,9 +27,6 @@ class AuctionController extends Controller
             if ($data['end_date'] !== $model->end_date) {
                 $data['start_date'] = Carbon::now();
             }
-
-            
-
             switch ($mode) {
                 case 'restart':{
 

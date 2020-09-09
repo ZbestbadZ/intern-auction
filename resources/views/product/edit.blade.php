@@ -13,7 +13,7 @@
                         <input class="form-control" type="text" name="name" id="name" value="{{ $product->name }}">
                         @error('name')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -25,18 +25,24 @@
 
                         @error('description')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="startprice">Start price: </label>
-                        <input class="form-control" type="text" name="start_price" id="startprice"
-                            value="{{ $product->start_price }}">
-                        @error('startprice')
+                        @if ($hasBidder)
 
-                        <strong>{{ $message }}</strong>
+                            <br><span>{{ $product->start_price }}</span>
+                        @else
+                            <input class="form-control" type="text" name="start_price" id="startprice"
+                                value="{{ $product->start_price }}">
+                        @endif
+
+                        @error('start_price')
+
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
@@ -46,18 +52,26 @@
 
                         <input class="form-control" type="text" name="minimum_bid" id="minimumbid"
                             value="{{ $product->minimum_bid }}">
-                        @error('minimumbid')
+                        @error('minimum_bid')
 
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
 
                         @enderror
                     </div>
 
                     <div class="form-group">
                         @if ($product->status == 1)
-                            Product is successfully finish if you wish to restart auction <a
-                                href="/products/{{ $product->id }}">Click here</a>
+                            Product is successfully finished an auction session if you wish to restart auction <a
+                                href="/products/{{$product->id }}/edit?restart=1">Click here</a>
                         @else
+                            <div class="form-group">
+                                <label for="end_date">End time:</label>
+                                <input type="datetime-local" name="end_date" id="end_date"
+                                    value="{{ $endDate ? $endDate->format('Y-m-d\TH:i:s') : $endDate }}"><br>
+                                @error ('end_date')
+                                <div class="text-danger" ><strong>{{ $message }}</strong></div>
+                                @enderror
+                            </div>
                             <label for="ispublic">On auction: </label>
                             <input type="checkbox" name="is_bidding" id="ispublic" @if ($product->is_bidding) checked=checked @endif>
                         @endif
@@ -105,7 +119,7 @@
                         <label for="image">Add Images</label>
                         <input type="file" class="form-control-file" id="image" name="image[]" multiple>
                         @error('image')
-                        <strong>{{ $message }}</strong>
+                        <div class="text-danger" ><strong>{{ $message }}</strong></div>
                         @enderror
                     </div>
                     <button class="btn btn-primary" type="submit" name="edit">Save</button>
