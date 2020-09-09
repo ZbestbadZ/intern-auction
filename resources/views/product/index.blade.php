@@ -5,7 +5,7 @@
 
         <div class="row">
             <div class="form-group col-4">
-                <form action="\products" method="GET">
+                <form action="/products" method="GET">
                     <input type="text" name="search" placeholder="Name: ex(banana)">
                     <button class="btn btn-primary">Search</button>
                 </form>
@@ -15,7 +15,7 @@
                 <a href="/products/create">Add a new product</a>
             </div>
             <div class=" col-4 ">
-                <form action="\products" method="GET">
+                <form action="/products" method="GET">
                     <label for="sortBy">Sort By:</label>
                     <select id="sortBy" name="sortBy">
                         <option value="name">Name</option>
