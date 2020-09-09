@@ -35,7 +35,7 @@ class AuctionProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'bid_price.gt' =>'Giá tiền phải cao hơn giá hiện tại',            
+            'bid_price.gt' =>'bid pice must be higher than current price',            
         ];
     }
     

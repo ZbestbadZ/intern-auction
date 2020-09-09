@@ -49,6 +49,6 @@ class checkAuctionPrice implements Rule
     { 
         $oldPrice = $this->auctionDetailModel->bid_price?$this->auctionDetailModel->bid_price:$this->productModel->start_price;
         
-        return 'Giá tiền phải chia hết cho bước giá ( giá gần nhất '.number_format($this->productModel->minimum_bid + $oldPrice).')';
+        return 'invalid price ( nearest acceptable price: '.number_format($this->productModel->minimum_bid + $oldPrice).')';
     }
 }
