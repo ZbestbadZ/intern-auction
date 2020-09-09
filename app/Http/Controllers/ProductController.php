@@ -74,7 +74,7 @@ class ProductController extends Controller
             $endDate = Carbon::parse($product->auction->end_date);
             $startDate = Carbon::parse($product->auction->start_date);
             
-            return view('product.edit', compact('product', 'images', 'hasBidder', 'endDate', 'startDate', ));
+            return view('product.edit', compact('product', 'images', 'hasBidder', 'endDate', 'startDate' ));
         } catch (Exception $e) {
             $mess = $e->getMessage();
             return redirect()->route('products.index')->withErrors($mess)->withInput();
