@@ -54,47 +54,53 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="ispublic">On auction: </label>
-
-                        <input type="checkbox" name="is_bidding" id="ispublic" @if ($product->is_bidding) checked=checked @endif>
+                        @if ($product->status == 1)
+                            Product is successfully finish if you wish to restart auction <a
+                                href="/products/{{ $product->id }}">Click here</a>
+                        @else
+                            <label for="ispublic">On auction: </label>
+                            <input type="checkbox" name="is_bidding" id="ispublic" @if ($product->is_bidding) checked=checked @endif>
+                        @endif
                     </div>
                     <div class="form-group">
-                        @if(count($images)!=0)
-                        <table class="table">
-                            <tr>
-                                <th>image</th>
-                                <th>name</th>
-                                <th>size</th>
-                                <th></th>
-                            </tr>
-                            @foreach ($images as $item)
+                        @if (count($images) != 0)
+                            <table class="table">
                                 <tr>
-                                    <td>
-                                        <div class="w-50">
-                                            <img class="img-fluid" src="{{ :asset('storage/' . $item->image_url) }}" alt="">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            {{$item->name}}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            {{}}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <form method="POST" action="{{ url("/productImage/{$item->id}") }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-primary" type="submit">Delete</button>
-                                    </form>
-                                        
-                                    </td>
+                                    <th>image</th>
+                                    <th>name</th>
+                                    <th>size</th>
+                                    <th></th>
                                 </tr>
-                            @endforeach
-                        </table>
+                                @foreach ($images as $item)
+                                    <tr>
+                                        <td>
+                                            <div class="w-50">
+                                                <img class="img-fluid" src="{{ asset('storage/' . $item->image_url) }}"
+                                                    alt="">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                {{ $item->name }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <form></form>
+                                            <form method="POST" action="{{ url("/productImage/{$item->id}") }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-primary" type="submit">Delete</button>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
                         @endif
                         <label for="image">Add Images</label>
                         <input type="file" class="form-control-file" id="image" name="image[]" multiple>
@@ -102,7 +108,7 @@
                         <strong>{{ $message }}</strong>
                         @enderror
                     </div>
-                    <button class="btn btn-primary" type="submit" name="edit">Edit</button>
+                    <button class="btn btn-primary" type="submit" name="edit">Save</button>
                 </form>
 
             </div>
