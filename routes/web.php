@@ -40,7 +40,7 @@ Route::group(['prefix'=>'/products', 'middleware' => ['isadmin']],function(){
 });
 
 Route::group(['prefix'=>'productImage','middleware' => ['isadmin']] , function(){
-    Route::delete('/{id}','productImageController@destroy')->name('productImage.destroy'); 
+    Route::delete('/{id}','ProductImageController@destroy')->name('productImage.destroy'); 
 });
 
 Route::get('admin', ['middleware' => 'isadmin', function () {
