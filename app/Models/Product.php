@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-
     protected $table = "products";
 
     protected $fillable = [
@@ -27,27 +26,21 @@ class Product extends Model
             $image->delete();
         }
         parent::delete();
-
     }
 
-    public function auction()
-    {
-
+    public function auction() {
         return $this->hasOne(Auction::class, 'product_id', 'id');
     }
 
-    public function images()
-    {
-
+    public function images() {
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
-    public function hasBidder()
-    {
 
+    public function hasBidder() {
         return $hasBidder = $this->auction->auctionDetail->user_id;
     }
-    public function getHighestBidPrice()
-    {
+
+    public function getHighestBidPrice() {
         return $this->auction->auctionDetail->bid_price;
     }
 }
